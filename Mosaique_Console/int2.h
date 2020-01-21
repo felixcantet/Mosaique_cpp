@@ -1,16 +1,20 @@
-#pragma once
-struct int2 {
-	int x;
-	int y;
+#ifndef _INT2_HPP_
+#define _INT2_HPP_
 
-public:
-	int2() {
-		this->x = 0;
-		this->y = 0;
-	}
+struct int2
+{
+	public:
+		int x;
+		int y;
 
-	int2(int x, int y) {
-		this->x = x;
-		this->y = y;
-	}
+		~int2() {};
+	
+		int2();
+		int2(int x, int y);
+		int2(int2& cop);
+
+		int2& operator=(int2 cop);
+		void swap(int2& cop);
 };
+
+#endif

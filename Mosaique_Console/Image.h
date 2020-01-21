@@ -1,4 +1,6 @@
-#pragma once
+#ifndef _IMAGE_HPP
+#define _IMAGE_HPP
+
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "std_image.h"
@@ -76,6 +78,6 @@ public:
 		stbi_write_jpg("Custom.jpg", this->width, this->height, this->channelsNumbers, (void*)data, this->width * this->channelsNumbers);
 	}
 
-
 };
 
+#endif

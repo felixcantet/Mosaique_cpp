@@ -152,7 +152,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="color.cpp" />
+    <ClCompile Include="int2.cpp" />
     <ClCompile Include="Mosaique_Console.cpp" />
+    <ClCompile Include="Pixel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="int2.h" />

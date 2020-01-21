@@ -1,20 +1,21 @@
-#pragma once
-struct Color {
+#ifndef _COLOR_HPP
+#define _COLOR_HPP
+
+struct Color
+{
+public:
 	int r;
 	int g;
 	int b;
 
-public:
+	~Color() {};
+	
+	Color();
+	Color(int r, int g, int b);
+	Color(Color& c);
 
-	Color() {
-		this->r = 0;
-		this->g = 0;
-		this->b = 0;
-	}
-	Color(int r, int g, int b) 
-	{
-		this->r = r;
-		this->g = g;
-		this->b = b;
-	}
+	Color& operator=(Color c);
+	void swap(Color& c);
 };
+
+#endif
