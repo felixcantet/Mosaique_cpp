@@ -65,6 +65,53 @@ Image::Image(int w, int h)
 	}
 }
 
+Image::Image(Image& im)
+{
+	this->height = im.getHeight();
+	this->width = im.getWidth();
+	this->channelsNumbers = im.channelsNumbers;
+
+	int dataSize = this->width * this->height * this->channelsNumbers;
+	this->data = new unsigned char[dataSize];
+
+	for(int i = 0; i < dataSize; i++)
+	{
+		this->data[i] = im.data[i];
+	}
+
+	this->pixels = new Pixel * *[this->width];
+
+	for (int i = 0; i < this->width; i++)
+	{
+		this->pixels[i] = new Pixel * [this->height];
+	}
+
+	for (int i = 0; i < width; i++)
+	{
+		for (int j = 0; j < height; j++)
+		{
+			this->pixels[i][j] = im.pixels[i][j];
+		}
+	}
+	
+}
+
+Image& Image::operator=(Image im)
+{
+	Image::swap(im);
+	
+	return *this;
+}
+
+void Image::swap(Image& im)
+{
+	std::swap(this->height, im.height);
+	std::swap(this->width, im.width);
+	std::swap(this->data, im.data);
+	std::swap(this->channelsNumbers, im.channelsNumbers);
+	std::swap(this->pixels, im.pixels);
+}
+
 int Image::getWidth() const
 {
 	return this->width;

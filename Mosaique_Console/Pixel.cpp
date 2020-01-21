@@ -25,7 +25,8 @@ Pixel& Pixel::operator=(Pixel p)
 
 void Pixel::swap(Pixel& p)
 {
-	
+	this->position = p.position;
+	this->color = p.color;
 }
 
 int Pixel::getR() const

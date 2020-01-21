@@ -31,11 +31,12 @@ int main()
 
 	//Image image = Image((const char*)"Test/Test.jpg");
 	Image* image = new Image(1000, 1000);
+	Image* im2 = image;
 	
 	std::cout << "Width : " << image->getWidth();
 	std::cout << "Height : " << image->getHeight();
 	//std::cout << std::endl << image.getPixel(150, 150).getG();
-
+	
 	for (int i = 0; i < image->getWidth(); i++)
 	{
 		for (int j = 0; j < image->getHeight(); j++)
@@ -56,6 +57,6 @@ int main()
 	}
 
 	image->writeBackPixels();
-
+	
 	return 0;
 }

@@ -17,9 +17,12 @@ public:
 	Pixel*** pixels;
 
 	Image(const char* imagePath);
-
 	Image(int w, int h);
+	Image(Image& im);
 
+	Image& operator=(Image im);
+	void swap(Image& im);
+	
 	~Image()
 	{
 		// Unload the image at destruction
