@@ -13,8 +13,8 @@
 #include <random>
 #include <fstream>
 #include <filesystem>
-namespace fs = std::experimental::filesystem;
-
+//namespace fs = std::experimental::filesystem;
+namespace fs = std::filesystem;
 int main()
 {
 	
@@ -29,15 +29,23 @@ int main()
 	}
 	
 
-	Image image = Image((const char*)"Test/Test.jpg");
-	std::cout << "Width : " << image.getWidth();
-	std::cout << "Height : " << image.getHeight();
-	std::cout << std::endl << image.getPixel(500, 500).getG();
+	//Image image = Image((const char*)"Test/Test.jpg");
+	Image image = Image(2048, 2048);
+	
+	//std::cout << "Width : " << image->getWidth();
+	//std::cout << "Height : " << image->getHeight();
+	std::cout << std::endl << image.getPixel(150, 150).getG();
 
 	for (int i = 0; i < image.getWidth(); i++) {
 		for (int j = 0; j < image.getHeight(); j++) {
-			if (i > 500)
+			int2* center = new int2(image.getWidth() / 2, image.getHeight() / 2);
+			int2* current = new int2(i, j);
+			float dist = center->dist(*current);
+			if (dist < image.getWidth() / 4)
 				image.pixelAcces[i][j] = Pixel(int2(i, j), Color(255, 0, 0));
+
+			delete(center);
+			delete(current);
 		}
 	}
 

@@ -30,7 +30,7 @@ public:
 		data = stbi_load(imagePath, &this->width, &this->height, &this->channelsNumbers, STBI_rgb);
 		if (data == nullptr)
 			std::cout << "Image not load" << std::endl;
-			
+		std::cout << "ChannelNumbers : " << channelsNumbers << std::endl;
 		this->pixelAcces = new Pixel * [width];
 		for (int i = 0; i < this->width; i++) {
 			this->pixelAcces[i] = new Pixel[height];
@@ -42,8 +42,23 @@ public:
 				pixelAcces[i][j] = Pixel(int2(i, j), color);
 			}
 		}
+	}
 
+	Image(int w, int h) {
+		this->width = w;
+		this->height = h;
+		this->channelsNumbers = 3;
+		this->data = new unsigned char[width * height * channelsNumbers];
+		pixelAcces = new Pixel * [width];
+		for (int i = 0; i < width; i++) {
+			this->pixelAcces[i] = new Pixel[height];
+		}
 
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
+				pixelAcces[i][j] = Pixel();
+			}
+		}
 	}
 
 	~Image() {
