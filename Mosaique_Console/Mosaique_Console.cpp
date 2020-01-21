@@ -1,5 +1,7 @@
-// Mosaique_Console.cpp : Ce fichier contient la fonction 'main'. L'exécution du programme commence et se termine à cet endroit.
-//
+// Mosaique_Console.cpp :
+// Ce fichier contient la fonction 'main'. L'exécution du programme commence et se termine à cet endroit.
+
+
 #include <stdlib.h>
 #include <iostream>
 
@@ -7,13 +9,13 @@
 #include <random>
 #include <fstream>
 #include <filesystem>
+#include "traitement.h"
 
 //namespace fs = std::experimental::filesystem;
 namespace fs = std::filesystem;
 
 int main()
 {
-	
 	//// Snippet code for Load directory file
 	//std::string path = "\Test";
 	//auto d = fs::directory_iterator(path);
@@ -35,7 +37,6 @@ int main()
 	
 	std::cout << "Width : " << image->getWidth();
 	std::cout << "Height : " << image->getHeight();
-	//std::cout << std::endl << image.getPixel(150, 150).getG();
 	
 	for (int i = 0; i < image->getWidth(); i++)
 	{
@@ -56,6 +57,8 @@ int main()
 		}
 	}
 
+	image = crop(image, 200, 200);
+	
 	image->writeBackPixels();
 	
 	return 0;

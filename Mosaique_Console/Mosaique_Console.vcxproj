@@ -157,6 +157,7 @@
     <ClCompile Include="int2.cpp" />
     <ClCompile Include="Mosaique_Console.cpp" />
     <ClCompile Include="Pixel.cpp" />
+    <ClCompile Include="traitement.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="int2.h" />
@@ -165,6 +166,7 @@
     <ClInclude Include="Pixel.h" />
     <ClInclude Include="stb_image_write.h" />
     <ClInclude Include="std_image.h" />
+    <ClInclude Include="traitement.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
