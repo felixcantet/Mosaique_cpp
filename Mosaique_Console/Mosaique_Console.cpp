@@ -32,32 +32,31 @@ int main()
 	//std::cout << std::endl << image.getPixel(500, 500).getG();
 
 	//Image image = Image((const char*)"Test/Test.jpg");
-	Image* image = new Image(1000, 1000);
-	Image* im2 = image;
+	Image* image = new Image((const char*)"Test/Test.jpg");
 	
 	std::cout << "Width : " << image->getWidth();
 	std::cout << "Height : " << image->getHeight();
 	
-	for (int i = 0; i < image->getWidth(); i++)
-	{
-		for (int j = 0; j < image->getHeight(); j++)
-		{
-			int2* center = new int2(image->getWidth() / 2, image->getHeight() / 2);
-			int2* current = new int2(i, j);
-			float dist = center->dist(*current);
-			if (dist < image->getWidth() / 4)
-			{
-				int2* pos = new int2(i, j);
-				Color* col = new Color(30, 5, 56);
-				image->pixels[i][j] = new Pixel(*pos, *col);
-			}
-			
-			delete(center);
-			delete(current);
-		}
-	}
+	//for (int i = 0; i < image->getWidth(); i++)
+	//{
+	//	for (int j = 0; j < image->getHeight(); j++)
+	//	{
+	//		int2* center = new int2(image->getWidth() / 2, image->getHeight() / 2);
+	//		int2* current = new int2(i, j);
+	//		float dist = center->dist(*current);
+	//		if (dist < image->getWidth() / 4)
+	//		{
+	//			int2* pos = new int2(i, j);
+	//			Color* col = new Color(30, 5, 56);
+	//			image->pixels[i][j] = new Pixel(*pos, *col);
+	//		}
+	//		
+	//		delete(center);
+	//		delete(current);
+	//	}
+	//}
 
-	image = crop(image, 200, 200);
+	image = crop(image, 500, 500);
 	
 	image->writeBackPixels();
 	
