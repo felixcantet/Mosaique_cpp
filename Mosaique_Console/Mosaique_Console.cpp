@@ -56,7 +56,7 @@ int main()
 	//	}
 	//}
 
-	image = crop(image, 500, 500);
+	image = cropCenter(image, 800, 800);
 	
 	image->writeBackPixels();
 	

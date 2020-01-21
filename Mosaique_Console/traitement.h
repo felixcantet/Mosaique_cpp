@@ -6,6 +6,6 @@
 // Ce fichier comporte toutes les fonctions de traitement pouvant être appliquées aux images
 
 Image *crop(Image *im, int w, int h);
-
+Image *cropCenter(Image* im, int w, int h);
 
 #endif
