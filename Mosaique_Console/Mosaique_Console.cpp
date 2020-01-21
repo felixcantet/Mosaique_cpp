@@ -13,43 +13,8 @@
 #include <random>
 #include <fstream>
 #include <filesystem>
-#include "int2.h"
-namespace fs = std::experimental::filesystem;
-
-/*
- *friend inline Rational operator+(int value, const Rational& r)
-    {
-        Ra‍‍​‌‌﻿﻿​﻿tional rA(r);
-        
-        rA += value;
-        
-        return rA;
-    }
- *
- *Rational &Rational::operator+=(const Rational& r)
-{
-    Rational tmp(r);
-    
-    if(this->m_den != tmp.m_den)
-    {
-        int myDen = this->m_den;
-        
-        this->m_den *= tmp.m_den‍‍​‌‌﻿﻿​﻿;
-        this->m_num *= tmp.m_den;
-        
-        tmp.m_den *= myDen;
-        tmp.m_num *= myDen;
-    }
-    
-    this->m_num += tmp.m_num;
-    
-    simplify();
-    
-    return *this;
-}
- * 
- */
-
+//namespace fs = std::experimental::filesystem;
+namespace fs = std::filesystem;
 int main()
 {
 	
@@ -68,14 +33,25 @@ int main()
 	//std::cout << "Height : " << image.getHeight();
 	//std::cout << std::endl << image.getPixel(500, 500).getG();
 
-	//for (int i = 0; i < image.getWidth(); i++) {
-	//	for (int j = 0; j < image.getHeight(); j++) {
-	//		if (i > 500)
-	//			image.pixelAcces[i][j] = Pixel(int2(i, j), Color(255, 255, 0));
-	//	}
-	//}
+	//Image image = Image((const char*)"Test/Test.jpg");
+	Image image = Image(2048, 2048);
+	
+	//std::cout << "Width : " << image->getWidth();
+	//std::cout << "Height : " << image->getHeight();
+	std::cout << std::endl << image.getPixel(150, 150).getG();
 
-	//image.writeBackPixels();
+	for (int i = 0; i < image.getWidth(); i++) {
+		for (int j = 0; j < image.getHeight(); j++) {
+			int2* center = new int2(image.getWidth() / 2, image.getHeight() / 2);
+			int2* current = new int2(i, j);
+			float dist = center->dist(*current);
+			if (dist < image.getWidth() / 4)
+				image.pixelAcces[i][j] = Pixel(int2(i, j), Color(255, 0, 0));
+
+			delete(center);
+			delete(current);
+		}
+	}
 
 
 	return 0;
