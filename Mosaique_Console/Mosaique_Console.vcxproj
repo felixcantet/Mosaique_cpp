@@ -160,6 +160,7 @@
     <ClCompile Include="traitement.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="histogramme.h" />
     <ClInclude Include="int2.h" />
     <ClInclude Include="color.h" />
     <ClInclude Include="Image.h" />

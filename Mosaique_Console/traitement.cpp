@@ -50,3 +50,19 @@ Image* cropRegion(Image& im, int top, int bot, int left, int right)
 
 	return newIm;
 }
+
+Image* blanckWhite(Image& im)
+{
+	Image* newIm = &im;
+	
+	for (int i = 0; i < newIm->getWidth(); i++)
+	{
+		for (int j = 0; j < newIm->getHeight(); j++)
+		{
+			float value = (newIm->pixels[i][j]->getR() + newIm->pixels[i][j]->getG() + newIm->pixels[i][j]->getB()) / 3;
+			newIm->pixels[i][j] = new Pixel(*(new int2(i,j)), *(new Color((int)value, (int)value,(int)value)));
+		}
+	}
+
+	return newIm;
+}

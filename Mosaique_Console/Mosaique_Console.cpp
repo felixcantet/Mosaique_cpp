@@ -58,7 +58,8 @@ int main()
 	//	}
 	//}
 
-	image = crop(*image, 400, 600);
+	image = crop(*image, 800, 800);
+	image = blanckWhite(*image);
 
 	std::cout << "\n image croper ! " << std::endl;
 
