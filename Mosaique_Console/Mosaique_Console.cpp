@@ -9,6 +9,7 @@
 #include <random>
 #include <fstream>
 #include <filesystem>
+#include "croping.h"
 #include "traitement.h"
 
 //namespace fs = std::experimental::filesystem;
@@ -66,6 +67,11 @@ int main()
 	std::cout << " taile X : " << image->getWidth() << " taille Y : " << image->getHeight() << std::endl;
 	
 	image->writeBackPixels("image1.jpg");
+
+	image = blackOrWhite(*image);
+
+	image->writeBackPixels("image2.jpg");
+	
 	im2->writeBackPixels("test01.jpg");
 	
 	return 0;

@@ -34,8 +34,7 @@ Image::Image(const char* imagePath)
 		{
 			unsigned char* pixelOffset = data + (i + height * j) * channelsNumbers;
 			Color* color = new Color(pixelOffset[0], pixelOffset[1], pixelOffset[2]);
-			int2* pos = new int2(i, j);
-			Pixel* p = new Pixel(*pos, *color);
+			Pixel* p = new Pixel(*color);
 			pixels[i][j] = p;
 		}
 	}

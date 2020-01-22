@@ -1,19 +1,17 @@
 #ifndef _PIXEL_HPP_
 #define _PIXEL_HPP_
 
-#include "int2.h"
 #include "color.h"
 
 struct Pixel {
 private:
-	int2* position;
 	Color* color;
 	
 public:
 	~Pixel() {};
 	
 	Pixel();
-	Pixel(int2& pos, Color& col);
+	Pixel(Color& col);
 	Pixel(Pixel& p);
 
 	Pixel& operator=(Pixel p);

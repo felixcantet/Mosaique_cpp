@@ -1,19 +1,17 @@
 #include "Pixel.h"
 
-Pixel::Pixel() {
-	this->position = new int2(0, 0);
+Pixel::Pixel()
+{
 	this->color = new Color(0, 0, 0);
 }
 
-Pixel::Pixel(int2& pos, Color& col)
+Pixel::Pixel(Color& col)
 {
-	this->position = new int2(pos);
 	this->color = new Color(col);
 }
 
 Pixel::Pixel(Pixel& p)
 {
-	this->position = p.position;
 	this->color = p.color;
 }
 
@@ -25,7 +23,6 @@ Pixel& Pixel::operator=(Pixel p)
 
 void Pixel::swap(Pixel& p)
 {
-	this->position = p.position;
 	this->color = p.color;
 }
 
