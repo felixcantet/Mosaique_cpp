@@ -159,6 +159,7 @@
     <ClCompile Include="Pixel.cpp" />
     <ClCompile Include="croping.cpp" />
     <ClCompile Include="traitement.cpp" />
+    <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="histogramme.h" />
@@ -170,6 +171,7 @@
     <ClInclude Include="std_image.h" />
     <ClInclude Include="croping.h" />
     <ClInclude Include="traitement.h" />
+    <ClInclude Include="utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

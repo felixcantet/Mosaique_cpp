@@ -60,7 +60,7 @@ int main()
 	//}
 
 	image = crop(*image, 800, 800);
-	image = blanckWhite(*image);
+	image = meanshift(*image, 2, 127, 7);
 
 	std::cout << "\n image croper ! " << std::endl;
 
@@ -68,10 +68,6 @@ int main()
 	
 	image->writeBackPixels("image1.jpg");
 
-	image = blackOrWhite(*image);
-
-	image->writeBackPixels("image2.jpg");
-	
 	im2->writeBackPixels("test01.jpg");
 	
 	return 0;
