@@ -32,7 +32,7 @@ public:
 	int getWidth() const;
 	int getHeight() const;
 	Pixel getPixel(int x, int y) const;
-	void writeBackPixels();
+	void writeBackPixels(const char* imgName);
 
 };
 

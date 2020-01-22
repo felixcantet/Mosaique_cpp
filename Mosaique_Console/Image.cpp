@@ -48,7 +48,7 @@ Image::Image(int w, int h)
 	this->channelsNumbers = 3;
 
 	this->data = new unsigned char[width * height * channelsNumbers];
-
+	
 	this->pixels = new Pixel * *[width];
 
 	for (int i = 0; i < this->width; i++)
@@ -60,8 +60,7 @@ Image::Image(int w, int h)
 	{
 		for (int j = 0; j < height; j++)
 		{
-			Pixel* p = new Pixel();
-			pixels[i][j] = p;
+			pixels[i][j] = new Pixel();
 		}
 	}
 }
@@ -77,7 +76,8 @@ Image::Image(Image& im)
 
 	for(int i = 0; i < dataSize; i++)
 	{
-		this->data[i] = im.data[i];
+		char a = im.data[i];
+		this->data[i] = a;
 	}
 
 	this->pixels = new Pixel * *[this->width];
@@ -91,7 +91,8 @@ Image::Image(Image& im)
 	{
 		for (int j = 0; j < height; j++)
 		{
-			this->pixels[i][j] = im.pixels[i][j];
+			Pixel* p = new Pixel(*im.pixels[i][j]);
+			this->pixels[i][j] = p;
 		}
 	}
 	
@@ -128,17 +129,29 @@ Pixel Image::getPixel(int x, int y) const
 	return *pixels[x][y];
 }
 
-void Image::writeBackPixels()
+void Image::writeBackPixels(const char* imgName)
 {
-	for (int i = 0; i < width; i++)
+	//for (int i = 0; i < width; i++)
+	//{
+	//	for (int j = 0; j < height; j++)
+	//	{
+	//		data[(i + height * j) * channelsNumbers] = pixels[i][j]->getR();
+	//		data[(i + height * j) * channelsNumbers + 1] = pixels[i][j]->getG();
+	//		data[(i + height * j) * channelsNumbers + 2] = pixels[i][j]->getB();
+	//	}
+	//}
+
+	int index = 0;
+	
+	for (int i = 0; i < height; i++)
 	{
-		for (int j = 0; j < height; j++)
+		for (int j = 0; j < width; j++)
 		{
-			data[(i + height * j) * channelsNumbers] = pixels[i][j]->getR();
-			data[(i + height * j) * channelsNumbers + 1] = pixels[i][j]->getG();
-			data[(i + height * j) * channelsNumbers + 2] = pixels[i][j]->getB();
+			data[index++] = (unsigned char)pixels[j][i]->getR();
+			data[index++] = (unsigned char)pixels[j][i]->getG();
+			data[index++] = (unsigned char)pixels[j][i]->getB();
 		}
 	}
-
-	stbi_write_jpg("Custom.jpg", this->width, this->height, this->channelsNumbers, (void*)data, this->width * this->channelsNumbers);
+	
+	stbi_write_jpg(imgName, this->width, this->height, this->channelsNumbers, (void*)data, this->width * this->channelsNumbers);
 }

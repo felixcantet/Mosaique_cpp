@@ -33,6 +33,8 @@ int main()
 
 	//Image image = Image((const char*)"Test/Test.jpg");
 	Image* image = new Image((const char*)"Test/Test.jpg");
+
+	Image* im2 = image;
 	
 	std::cout << "Width : " << image->getWidth();
 	std::cout << "Height : " << image->getHeight();
@@ -56,9 +58,14 @@ int main()
 	//	}
 	//}
 
-	image = cropCenter(image, 800, 800);
+	image = crop(*image, 400, 600);
+
+	std::cout << "\n image croper ! " << std::endl;
+
+	std::cout << " taile X : " << image->getWidth() << " taille Y : " << image->getHeight() << std::endl;
 	
-	image->writeBackPixels();
+	image->writeBackPixels("image1.jpg");
+	im2->writeBackPixels("test01.jpg");
 	
 	return 0;
 }
