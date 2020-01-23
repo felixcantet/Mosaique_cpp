@@ -59,14 +59,14 @@ int main()
 	//	}
 	//}
 
-	image = crop(*image, 800, 800);
-	image = meanshift(*image, 2, 127, 7);
+	image = resize(*image, 200, 500);
+	//image = meanshift(*image, 2, 127, 7);
 
 	std::cout << "\n image croper ! " << std::endl;
 
 	std::cout << " taile X : " << image->getWidth() << " taille Y : " << image->getHeight() << std::endl;
 	
-	image->writeBackPixels("image1.jpg");
+	image->writeBackPixels("resize.jpg");
 
 	im2->writeBackPixels("test01.jpg");
 	

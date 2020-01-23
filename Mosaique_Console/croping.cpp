@@ -50,3 +50,23 @@ Image* cropRegion(Image& im, int top, int bot, int left, int right)
 
 	return newIm;
 }
+
+Image* resize(Image& im, int w, int h)
+{
+	Image* newIm = new Image(w, h);
+
+	float coefX = (float)im.getWidth() / (float)newIm->getWidth();
+	float coefY = (float)im.getHeight() / (float)newIm->getHeight();
+
+	for (int i = 0; i < newIm->getWidth(); i++)
+	{
+		for (int j = 0; j < newIm->getHeight(); j++)
+		{
+			int x = i * coefX;
+			int y = j * coefY;
+			newIm->pixels[i][j] = im.pixels[x][y];
+		}
+	}
+
+	return newIm;
+}
