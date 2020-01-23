@@ -59,8 +59,8 @@ int main()
 	//	}
 	//}
 
-	image = resize(*image, 200, 500);
-	//image = meanshift(*image, 2, 127, 7);
+	image = resize(*image, 800, 800);
+	image = luminance(*image);
 
 	std::cout << "\n image croper ! " << std::endl;
 
