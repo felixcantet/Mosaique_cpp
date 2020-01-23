@@ -60,7 +60,7 @@ int main()
 	//}
 
 	image = resize(*image, 800, 800);
-	image = luminance(*image);
+	image = invertColor(*image);
 
 	std::cout << "\n image croper ! " << std::endl;
 

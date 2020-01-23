@@ -69,6 +69,21 @@ Image* blackOrWhite(Image& im)
 	return newIm;
 }
 
+Image* invertColor(Image& im)
+{
+	Image* newIm = new Image(im);
+
+	for (int i = 0; i < newIm->getWidth(); i++)
+	{
+		for (int j = 0; j < newIm->getHeight(); j++)
+		{
+			newIm->pixels[i][j] = new Pixel(*new Color(255 - im.pixels[i][j]->getR(), 255 - im.pixels[i][j]->getG(), 255 - im.pixels[i][j]->getB()));
+		}
+	}
+
+	return newIm;
+}
+
 Image* meanshift(Image& im, int radius, int ‍‍​‌‌﻿﻿​﻿threshold, int iterations)
 {
 	Image* copy = new Image(im);
