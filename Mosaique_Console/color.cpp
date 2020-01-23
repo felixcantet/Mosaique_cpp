@@ -15,7 +15,7 @@ Color::Color(int r, int g, int b)
 	this->b = b;
 }
 
-Color::Color(Color& c)
+Color::Color(const Color& c)
 {
 	this->r = c.r;
 	this->g = c.g;

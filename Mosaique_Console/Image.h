@@ -18,7 +18,7 @@ public:
 
 	Image(const char* imagePath);
 	Image(int w, int h);
-	Image(Image& im);
+	Image(const Image& im);
 
 	Image& operator=(Image im);
 	void swap(Image& im);

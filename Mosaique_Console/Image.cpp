@@ -64,7 +64,7 @@ Image::Image(int w, int h)
 	}
 }
 
-Image::Image(Image& im)
+Image::Image(const Image& im)
 {
 	this->height = im.getHeight();
 	this->width = im.getWidth();

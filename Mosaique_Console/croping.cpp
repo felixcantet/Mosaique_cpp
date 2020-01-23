@@ -1,6 +1,6 @@
 #include "croping.h"
 
-Image *crop(Image &im, int w, int h)
+Image *crop(const Image &im, int w, int h)
 {
 	Image* newIm = new Image(w, h);
 
@@ -15,7 +15,7 @@ Image *crop(Image &im, int w, int h)
 	return newIm;
 }
 
-Image* cropCenter(Image& im, int w, int h)
+Image* cropCenter(const Image& im, int w, int h)
 {
 	Image* newIm = new Image(w, h);
 
@@ -36,7 +36,7 @@ Image* cropCenter(Image& im, int w, int h)
 	return newIm;
 }
 
-Image* cropRegion(Image& im, int top, int bot, int left, int right)
+Image* cropRegion(const Image& im, int top, int bot, int left, int right)
 {
 	Image* newIm = new Image(right-left, bot-top);
 
@@ -51,7 +51,7 @@ Image* cropRegion(Image& im, int top, int bot, int left, int right)
 	return newIm;
 }
 
-Image* resize(Image& im, int w, int h)
+Image* resize(const Image& im, int w, int h)
 {
 	Image* newIm = new Image(w, h);
 

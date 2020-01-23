@@ -12,7 +12,7 @@ public:
 	
 	Pixel();
 	Pixel(Color& col);
-	Pixel(Pixel& p);
+	Pixel(const Pixel& p);
 
 	Pixel& operator=(Pixel p);
 	void swap(Pixel& p);

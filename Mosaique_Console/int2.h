@@ -11,7 +11,7 @@ struct int2
 	
 		int2();
 		int2(int x, int y);
-		int2(int2& cop);
+		int2(const int2& cop);
 
 		int2& operator=(int2 cop);
 		void swap(int2& cop);

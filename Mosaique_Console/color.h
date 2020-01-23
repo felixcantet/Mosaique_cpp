@@ -12,7 +12,7 @@ public:
 	
 	Color();
 	Color(int r, int g, int b);
-	Color(Color& c);
+	Color(const Color& c);
 
 	Color& operator=(Color c);
 	void swap(Color& c);

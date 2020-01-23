@@ -13,7 +13,7 @@ int2::int2(int x, int y)
 	this->y = y;
 }
 
-int2::int2(int2& cop)
+int2::int2(const int2& cop)
 {
 	this->x = cop.x;
 	this->y = cop.y;

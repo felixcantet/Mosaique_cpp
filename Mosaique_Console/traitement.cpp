@@ -2,11 +2,10 @@
 
 #include "Image.h"
 #include <vector>
-#include "utils.h"
 
-Image* luminance(Image& im)
+Image* luminance(const Image& im)
 {
-	Image* newIm = &im;
+	Image* newIm = new Image(im);
 
 	for (int i = 0; i < newIm->getWidth(); i++)
 	{
@@ -26,9 +25,9 @@ Image* luminance(Image& im)
 	return newIm;
 }
 
-Image* sepia(Image& im)
+Image* sepia(const Image& im)
 {
-	Image* newIm = &im;
+	Image* newIm = new Image(im);
 	
 	for (int i = 0; i < newIm->getWidth(); i++)
 	{
@@ -53,7 +52,7 @@ Image* sepia(Image& im)
 	return newIm;
 }
 
-Image* blackOrWhite(Image& im)
+Image* blackOrWhite(const Image& im)
 {
 	Image* newIm = new Image(im);
 
@@ -69,7 +68,7 @@ Image* blackOrWhite(Image& im)
 	return newIm;
 }
 
-Image* invertColor(Image& im)
+Image* invertColor(const Image& im)
 {
 	Image* newIm = new Image(im);
 
@@ -84,7 +83,7 @@ Image* invertColor(Image& im)
 	return newIm;
 }
 
-Image* meanshift(Image& im, int radius, int ‍‍​‌‌﻿﻿​﻿threshold, int iterations)
+Image* meanshift(const Image& im, int radius, int ‍‍​‌‌﻿﻿​﻿threshold, int iterations)
 {
 	Image* copy = new Image(im);
 	
@@ -96,7 +95,7 @@ Image* meanshift(Image& im, int radius, int ‍‍​‌‌﻿﻿​﻿threshold
 	return copy;
 }
 
-Image* iterateMeanshift(Image& im, int radius, int ‍‍​‌‌﻿﻿​﻿threshold)
+Image* iterateMeanshift(const Image& im, int radius, int ‍‍​‌‌﻿﻿​﻿threshold)
 {
 	int voisinAdd = 0;
 	int rAdd = 0;

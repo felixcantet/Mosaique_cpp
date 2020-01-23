@@ -2,12 +2,12 @@
 #define _TRAITEMENT_HPP_
 #include "Image.h"
 
-Image* luminance(Image& im);
-Image* blackOrWhite(Image& im);
-Image* sepia(Image& im);
-Image* invertColor(Image& im);
+Image* luminance(const Image& im);
+Image* blackOrWhite(const Image& im);
+Image* sepia(const Image& im);
+Image* invertColor(const Image& im);
 
-Image* meanshift(Image& im, int radius, int ‍‍​‌‌﻿﻿​﻿threshold, int iterations);
-Image* iterateMeanshift(Image& im, int radius, int ‍‍​‌‌﻿﻿​﻿threshold);
+Image* meanshift(const Image& im, int radius, int ‍‍​‌‌﻿﻿​﻿threshold, int iterations);
+Image* iterateMeanshift(const Image& im, int radius, int ‍‍​‌‌﻿﻿​﻿threshold);
 
 #endif

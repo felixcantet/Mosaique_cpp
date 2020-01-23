@@ -10,7 +10,7 @@ Pixel::Pixel(Color& col)
 	this->color = new Color(col);
 }
 
-Pixel::Pixel(Pixel& p)
+Pixel::Pixel(const Pixel& p)
 {
 	this->color = p.color;
 }
