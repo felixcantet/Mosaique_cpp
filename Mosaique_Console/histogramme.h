@@ -2,6 +2,7 @@
 #include "Image.h"
 #include "color.h"
 
+
 class Histogramme {
 private:
 	unsigned int* redHistogramme;
@@ -10,12 +11,7 @@ private:
 	unsigned int* luminanceHistogramme;
 
 public:
-	Histogramme(const Image* image) {
-		redHistogramme = new unsigned int[255];
-		redHistogramme = new unsigned int[255];
-		redHistogramme = new unsigned int[255];
-		luminanceHistogramme = new unsigned int[255];
-	}
+	Histogramme(const Image* image);
 
 	~Histogramme() {
 		delete[] redHistogramme;
@@ -24,22 +20,8 @@ public:
 		delete[] luminanceHistogramme;
 	}
 	
-	int getLuminance(Color* color) {
-		return (int)(color->r * 0.2126 + color->g * 0.7152 + color->b * 0.0722);
-	}
+	int getLuminance(Color* color);
 
-	unsigned int* computeHistogrammes(const Image* image) 
-	{
-		for (int i = 0; i < image->getWidth(); i++) {
-			for (int j = 0; j < image->getHeight(); j++) {
-				Color color = image->getPixel(i, j).getColor();
-				redHistogramme[color.r] += 1;
-				blueHistogramme[color.b] += 1;
-				greenHistogramme[color.g] += 1;
-				luminanceHistogramme[getLuminance(&color)] += 1;
-
-			}
-		}
-	}
+	void computeHistogrammes(const Image* image);
 
 };
