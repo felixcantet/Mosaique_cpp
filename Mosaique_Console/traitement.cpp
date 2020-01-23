@@ -20,6 +20,39 @@ Image* luminance(Image& im)
 	return newIm;
 }
 
+Image* sepia(Image& im)
+{
+	Image* newIm = &im;
+	
+	for (int i = 0; i < newIm->getWidth(); i++)
+	{
+		for (int j = 0; j < newIm->getHeight(); j++)
+		{
+			float r = (float)newIm->pixels[i][j]->getR();
+			float g = (float)newIm->pixels[i][j]->getG();
+			float b = (float)newIm->pixels[i][j]->getB();
+
+			float newR = r * 0.393f + g * 0.769f + b * 0.189f;
+			float newG = r * 0.349f + g * 0.686f + b * 0.168f;
+			float newB = r * 0.272f + g * 0.534f + b * 0.131f;
+
+			newR = newR > 255 ? 255 : newR;
+			newG = newG > 255 ? 255 : newG;
+			newB = newB > 255 ? 255 : newB;
+			
+			newIm->pixels[i][j] = new Pixel(*(new Color((int)newR, (int)newG, (int)newB)));
+		}
+	}
+
+	return newIm;
+}
+
+/*
+ *	dot(color.rgb, vec3(0.393, 0.769, 0.189)),
+	dot(color.rgb, vec3(0.349, 0.686, 0.168)),
+	dot(color.rgb, vec3(0.272, 0.534, 0.131))
+ */
+
 Image* blackOrWhite(Image& im)
 {
 	Image* newIm = new Image(im);
