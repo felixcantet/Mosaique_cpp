@@ -16,8 +16,8 @@
 
 namespace fs = std::experimental::filesystem;
 
-int rows = 50;
-int column = 50;
+int rows = 128;
+int column = 64;
 
 int vignetteNumber = 0;
 
