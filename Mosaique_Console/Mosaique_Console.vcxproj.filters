@@ -65,10 +65,10 @@
     <ClInclude Include="croping.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="traitement.h">
-      <Filter>Fichiers sources</Filter>
-    </ClInclude>
     <ClInclude Include="utils.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="traitement.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>

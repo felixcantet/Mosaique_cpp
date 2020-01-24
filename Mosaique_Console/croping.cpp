@@ -44,7 +44,7 @@ Image* cropRegion(const Image& im, int top, int bot, int left, int right)
 	{
 		for (int j = 0; j < newIm->getHeight(); j++)
 		{
-			newIm->pixels[i][j] = im.pixels[i][j];
+			newIm->pixels[i][j] = im.pixels[i + left][j+top];
 		}
 	}
 

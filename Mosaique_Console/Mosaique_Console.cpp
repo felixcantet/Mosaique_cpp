@@ -11,64 +11,103 @@
 #include <filesystem>
 #include "croping.h"
 #include "traitement.h"
+#include <string>
 
-//namespace fs = std::experimental::filesystem;
-namespace fs = std::filesystem;
+namespace fs = std::experimental::filesystem;
+
+int rows = 20;
+int column = 20;
+
+int vignetteNumber = 0;
+
+int widthCrop = 0;
+int heightCrop = 0;
+
+// le dossier Input a à sa racine l'image à mosaiquer
+// 
+// le dossier Input/SetImages/ conteint toutes les images qui composeront la mosaique
 
 int main()
 {
-	//// Snippet code for Load directory file
-	//std::string path = "\Test";
-	//auto d = fs::directory_iterator(path);
-	//for (const auto& entry : d) {
-	//	std::cout << entry.path() << std::endl;
-	//	std::string p = entry.path().string();
-	//	p.replace(p.begin(), p.end(), "'\'", '/');
-	//	std::cout << p << std::endl;
-	//}
-	//
-	//Image image = Image((const char*)"Test/Test.jpg");
-	//std::cout << "Width : " << image.getWidth();
-	//std::cout << "Height : " << image.getHeight();
-	//std::cout << std::endl << image.getPixel(500, 500).getG();
+	//Loading de l'image à mosaiquer (input)
+	Image* image = new Image((const char*)"Input/loup.jpg");
+	vignetteNumber = rows * column;
 
-	//Image image = Image((const char*)"Test/Test.jpg");
-	Image* image = new Image((const char*)"Test/Test.jpg");
+	//Calcule de la size des vignettes
+	widthCrop = image->getWidth() / column;
+	heightCrop = image->getHeight() / rows;
 
-	Image* im2 = image;
+	//Decoupage de l'input
+	std::vector<Image*> inputImageVignettes;
+	for(int i = 0; i < column; i++)
+	{
+		for(int j = 0; j < rows; j++)
+		{
+			Image* tmp = cropRegion(*image, j * heightCrop, (j + 1) * heightCrop, i * widthCrop, (i + 1) * widthCrop);
+			inputImageVignettes.push_back(tmp);
+			
+			std::string s = "Render/";
+			s.append(std::to_string(i));
+			s.append("_");
+			s.append(std::to_string(j));
+			s.append("inoutCrop.jpg");
+			
+			tmp->writeBackPixels(s.c_str());
+		}
+	}
+
+	//Loading des vignette qui composeront la mosaique
+	std::vector<Image*> vignetteImages;
+	
+	std::string path = "Input/SetImages/";
+	auto d = fs::directory_iterator(path);
+	
+	for (const auto& entry : d) 
+	{
+		std::cout << entry.path() << std::endl;
+		
+		std::string p = entry.path().string();
+		
+		Image* test = new Image(p.c_str());
+		
+		std::cout << test->getHeight() << " " << test->getWidth() << std::endl;
+		vignetteImages.push_back(test);
+	}
+
+	//resize des vignette
+	for(int i = 0; i < vignetteImages.size(); i++)
+	{
+		if(vignetteImages[i]->getHeight() < heightCrop)
+		{
+			vignetteImages[i] = resize(*vignetteImages[i], widthCrop, heightCrop);
+			continue;
+		}
+		
+		switch (i)
+		{
+			
+		default:
+			vignetteImages[i] = resize(*vignetteImages[i], widthCrop, heightCrop);
+			break;
+
+		case 2:
+			vignetteImages[i] = cropCenter(*vignetteImages[i], widthCrop, heightCrop);
+			break;
+		}
+	}
+	
+	//Image* im2 = new Image((const char*)"Input/SetImages/input.jpg"); 
 	
 	std::cout << "Width : " << image->getWidth();
 	std::cout << "Height : " << image->getHeight();
-	
-	//for (int i = 0; i < image->getWidth(); i++)
-	//{
-	//	for (int j = 0; j < image->getHeight(); j++)
-	//	{
-	//		int2* center = new int2(image->getWidth() / 2, image->getHeight() / 2);
-	//		int2* current = new int2(i, j);
-	//		float dist = center->dist(*current);
-	//		if (dist < image->getWidth() / 4)
-	//		{
-	//			int2* pos = new int2(i, j);
-	//			Color* col = new Color(30, 5, 56);
-	//			image->pixels[i][j] = new Pixel(*pos, *col);
-	//		}
-	//		
-	//		delete(center);
-	//		delete(current);
-	//	}
-	//}
 
-	image = resize(*image, 800, 800);
-	image = invertColor(*image);
+	//image = resize(*image, 800, 800);
+	//image = luminance(*image);
 
 	std::cout << "\n image croper ! " << std::endl;
 
-	std::cout << " taile X : " << image->getWidth() << " taille Y : " << image->getHeight() << std::endl;
-	
-	image->writeBackPixels("resize.jpg");
+	//L'image final est save dans le dossier render
+	image->writeBackPixels("Render/resize.jpg");
 
-	im2->writeBackPixels("test01.jpg");
-	
 	return 0;
 }
