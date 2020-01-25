@@ -128,13 +128,13 @@ Pixel Image::getPixel(int x, int y) const
 	return *pixels[x][y];
 }
 
-void Image::modifyPixelsRegion(Image* to, int top, int bot, int left, int right)
+void Image::modifyPixelsRegion(const Image& to, int top, int bot, int left, int right)
 {
-	for (int i = 0; i < to->getWidth(); i++)
+	for (int i = 0; i < to.getWidth(); i++)
 	{
-		for (int j = 0; j < to->getHeight(); j++)
+		for (int j = 0; j < to.getHeight(); j++)
 		{
-			this->pixels[i + left][j + top] = to->pixels[i][j];
+			this->pixels[i + left][j + top] = to.pixels[i][j];
 		}
 	}
 }

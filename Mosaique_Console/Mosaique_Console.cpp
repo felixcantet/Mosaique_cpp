@@ -16,8 +16,8 @@
 
 namespace fs = std::experimental::filesystem;
 
-int rows = 128;
-int column = 64;
+int rows = 2;
+int column = 2;
 
 int vignetteNumber = 0;
 
@@ -31,28 +31,28 @@ int heightCrop = 0;
 int main()
 {
 	//Loading de l'image à mosaiquer (input)
-	Image* inputImage = new Image((const char*)"Input/loup.jpg");
+	Image inputImage((const char*)"Input/loup.jpg");
 	vignetteNumber = rows * column;
 
 	//Calcule de la size des vignettes
-	widthCrop = inputImage->getWidth() / column;
-	heightCrop = inputImage->getHeight() / rows;
+	widthCrop = inputImage.getWidth() / column;
+	heightCrop = inputImage.getHeight() / rows;
 
-	inputImage = resize(*inputImage, widthCrop * column, heightCrop * rows);
+	inputImage = resize(inputImage, widthCrop * column, heightCrop * rows);
 	
 	//Decoupage de l'input
-	std::vector<Image*> inputImageVignettes;
+	std::vector<Image> inputImageVignettes;
 	for(int i = 0; i < column; i++)
 	{
 		for(int j = 0; j < rows; j++)
 		{
-			Image* tmp = cropRegion(*inputImage, j * heightCrop, (j + 1) * heightCrop, i * widthCrop, (i + 1) * widthCrop);
+			Image tmp = cropRegion(inputImage, j * heightCrop, (j + 1) * heightCrop, i * widthCrop, (i + 1) * widthCrop);
 			inputImageVignettes.push_back(tmp);
 		}
 	}
 
 	//Loading des vignette qui composeront la mosaique
-	std::vector<Image*> vignetteImages;
+	std::vector<Image> vignetteImages;
 	
 	std::string path = "Input/SetImages/";
 	auto d = fs::directory_iterator(path);
@@ -63,18 +63,18 @@ int main()
 		
 		std::string p = entry.path().string();
 		
-		Image* test = new Image(p.c_str());
+		Image test(p.c_str());
 		
-		std::cout << test->getHeight() << " " << test->getWidth() << std::endl;
+		std::cout << test.getHeight() << " " << test.getWidth() << std::endl;
 		vignetteImages.push_back(test);
 	}
 
 	//resize des vignette
 	for(int i = 0; i < vignetteImages.size(); i++)
 	{
-		if(vignetteImages[i]->getHeight() < heightCrop)
+		if(vignetteImages[i].getHeight() < heightCrop || vignetteImages[i].getWidth() < widthCrop)
 		{
-			vignetteImages[i] = resize(*vignetteImages[i], widthCrop, heightCrop);
+			vignetteImages[i] = resize(vignetteImages[i], widthCrop, heightCrop);
 			continue;
 		}
 		
@@ -82,17 +82,17 @@ int main()
 		{
 			
 		default:
-			vignetteImages[i] = resize(*vignetteImages[i], widthCrop, heightCrop);
+			vignetteImages[i] = resize(vignetteImages[i], widthCrop, heightCrop);
 			break;
 
 		case 3:
-			vignetteImages[i] = cropCenter(*vignetteImages[i], widthCrop, heightCrop);
+			vignetteImages[i] = cropCenter(vignetteImages[i], widthCrop, heightCrop);
 			break;
 		}
 	}
 
 	//Declaration des image choisi
-	Image** chosenImages = new Image* [column*rows];
+	std::vector<Image> chosenImages;
 
 	//Comparaison des similitude + ajout de l'image dans chosenImages
 	for(int i = 0; i < inputImageVignettes.size(); i++)
@@ -102,16 +102,19 @@ int main()
 		for(int j = 0; j < vignetteImages.size(); j++)
 		{
 			int currVal = diffVal(inputImageVignettes[i], vignetteImages[j]);
-			if(currVal < value)
+			if(currVal <= value)
 			{
 				value = currVal;
 				index = j;
 			}
 		}
 
-		chosenImages[i] = new Image(*vignetteImages[index]);
+		chosenImages.push_back(vignetteImages[index]);
 	}
 
+	vignetteImages.empty();
+	inputImageVignettes.empty();
+	
 	//j * heightCrop, (j + 1) * heightCrop, i * widthCrop, (i + 1) * widthCrop
 	
 	//Construction de l'image final
@@ -120,12 +123,17 @@ int main()
 	{
 		for(int j = 0; j < rows; j++)
 		{
-			inputImage->modifyPixelsRegion(chosenImages[index++], j * heightCrop, (j + 1) * heightCrop, i * widthCrop, (i + 1) * widthCrop);
+			inputImage.modifyPixelsRegion(chosenImages[index++], j * heightCrop, (j + 1) * heightCrop, i * widthCrop, (i + 1) * widthCrop);
 		}
 	}
 	
 	//L'image final est save dans le dossier render
-	inputImage->writeBackPixels("Render/Mosaique.jpg");
+	inputImage.writeBackPixels("Render/Mosaique.jpg");
 
+	chosenImages.empty();
+	
+	//delete inputImage;
+	//delete[] chosenImages;
+	
 	return 0;
 }

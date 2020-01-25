@@ -33,7 +33,7 @@ public:
 	int getHeight() const;
 	Pixel getPixel(int x, int y) const;
 
-	void modifyPixelsRegion(Image* to, int top, int bot, int left, int right);
+	void modifyPixelsRegion(const Image& to, int top, int bot, int left, int right);
 	
 	void writeBackPixels(const char* imgName);
 
