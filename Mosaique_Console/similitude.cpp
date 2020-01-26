@@ -15,5 +15,5 @@ int diffVal(const Image& im1, const Image& im2)
 		}
 	}
 
-	return finalDiff;
+	return finalDiff/(im1.getWidth() * im1.getHeight());
 }
