@@ -2,12 +2,12 @@
 
 Pixel::Pixel()
 {
-	this->color = new Color(0, 0, 0);
+	this->color = Color(0, 0, 0);
 }
 
-Pixel::Pixel(Color& col)
+Pixel::Pixel(const Color& col)
 {
-	this->color = new Color(col);
+	this->color = Color(col);
 }
 
 Pixel::Pixel(const Pixel& p)
@@ -28,36 +28,36 @@ void Pixel::swap(Pixel& p)
 
 int Pixel::getR() const
 {
-	return this->color->r;
+	return this->color.r;
 }
 
 int Pixel::getG() const
 {
-	return this->color->g;
+	return this->color.g;
 }
 
 int Pixel::getB() const
 {
-	return this->color->b;
+	return this->color.b;
 }
 
 Color Pixel::getColor() const
 {
-	return *color;
+	return color;
 }
 
-void Pixel::setColor(Color& newColor) {
-	this->color = &newColor;
+void Pixel::setColor(const Color& newColor) {
+	this->color = newColor;
 }
 
 void Pixel::setR(int r) {
-	this->color->r = r;
+	this->color.r = r;
 }
 
 void Pixel::setG(int g) {
-	this->color->g = g;
+	this->color.g = g;
 }
 
 void Pixel::setB(int b) {
-	this->color->b = b;
+	this->color.b = b;
 }

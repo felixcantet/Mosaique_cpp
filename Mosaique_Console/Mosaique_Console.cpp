@@ -16,8 +16,8 @@
 
 namespace fs = std::experimental::filesystem;
 
-int rows = 2;
-int column = 2;
+int rows = 256;
+int column = 256;
 
 int vignetteNumber = 0;
 
@@ -31,7 +31,7 @@ int heightCrop = 0;
 int main()
 {
 	//Loading de l'image à mosaiquer (input)
-	Image inputImage((const char*)"Input/loup.jpg");
+	Image inputImage((const char*)"Input/loup1.jpg");
 	vignetteNumber = rows * column;
 
 	//Calcule de la size des vignettes
@@ -112,8 +112,8 @@ int main()
 		chosenImages.push_back(vignetteImages[index]);
 	}
 
-	vignetteImages.empty();
-	inputImageVignettes.empty();
+	vignetteImages.clear();
+	inputImageVignettes.clear();
 	
 	//j * heightCrop, (j + 1) * heightCrop, i * widthCrop, (i + 1) * widthCrop
 	
@@ -130,7 +130,7 @@ int main()
 	//L'image final est save dans le dossier render
 	inputImage.writeBackPixels("Render/Mosaique.jpg");
 
-	chosenImages.empty();
+	chosenImages.clear();
 	
 	//delete inputImage;
 	//delete[] chosenImages;

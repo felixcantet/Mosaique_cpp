@@ -5,13 +5,13 @@
 
 struct Pixel {
 private:
-	Color* color;
+	Color color;
 	
 public:
 	~Pixel() {};
 	
 	Pixel();
-	Pixel(Color& col);
+	Pixel(const Color& col);
 	Pixel(const Pixel& p);
 
 	Pixel& operator=(Pixel p);
@@ -22,7 +22,7 @@ public:
 	int getB() const;
 	Color getColor() const;
 
-	void setColor(Color& newColor);
+	void setColor(const Color& newColor);
 	void setR(int r);
 	void setG(int g);
 	void setB(int b);
