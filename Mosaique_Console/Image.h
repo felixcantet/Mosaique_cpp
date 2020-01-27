@@ -10,7 +10,7 @@ private:
 	int width;
 	int height;
 	int channelsNumbers;
-	unsigned char* data;
+	//unsigned char* data;
 	
 
 public:
@@ -26,7 +26,8 @@ public:
 	~Image()
 	{
 		// Unload the image at destruction
-		stbi_image_free(data);
+		//stbi_image_free(data);
+		delete[] pixels;
 	}
 
 	int getWidth() const;
