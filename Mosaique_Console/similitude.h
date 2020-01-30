@@ -1,4 +1,4 @@
 #pragma once
 #include "Image.h"
 
-int diffVal(Image* im1, Image* im2);
+int diffVal(const Image& im1, const Image& im2);
