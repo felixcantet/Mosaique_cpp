@@ -30,8 +30,27 @@ int heightCrop = 0;
 
 int main()
 {
+	std::string pathMosaique;
+
+	//Demander le path de l'image a mosaiquer
+	std::cout << "Indiquer le chemin de l image qui va etre mosaiquer : " << std::endl;
+	std::cin >> pathMosaique;
+	std::cout << "\n" << std::endl;
+	
 	//Loading de l'image à mosaiquer (input)
-	Image inputImage((const char*)"Input/loup1.jpg");
+	Image inputImage((const char*)pathMosaique.c_str());
+	
+	//Demander si il veut appliquer un filtre à l'image avant de la decouper
+
+	
+	//Demander le nombre de raws et de column (limiter à X ?)
+	std::cout << "Indiquer le nombre de ligne : " << std::endl;
+	std::cin >> rows;
+	
+	std::cout << "Indiquer le nombre de colonne : " << std::endl;
+	std::cin >> column;
+	std::cout << "\n" << std::endl;
+	
 	vignetteNumber = rows * column;
 
 	//Calcule de la size des vignettes
@@ -39,35 +58,41 @@ int main()
 	heightCrop = inputImage.getHeight() / rows;
 
 	inputImage = resize(inputImage, widthCrop * column, heightCrop * rows);
-	
+
 	//Decoupage de l'input
 	std::vector<Image> inputImageVignettes;
-	for(int i = 0; i < column; i++)
+	for (int i = 0; i < column; i++)
 	{
-		for(int j = 0; j < rows; j++)
+		for (int j = 0; j < rows; j++)
 		{
 			Image tmp = cropRegion(inputImage, j * heightCrop, (j + 1) * heightCrop, i * widthCrop, (i + 1) * widthCrop);
 			inputImageVignettes.push_back(tmp);
 		}
 	}
 
+	//Demander le dossier contenant le set d'image (limiter à X ?)
+	std::cout << "Indiquer le chemin du dossier contenant le set d images : " << std::endl;
+	std::cin >> pathMosaique;
+	std::cout << "\n" << std::endl;
+	
 	//Loading des vignette qui composeront la mosaique
 	std::vector<Image> vignetteImages;
-	
-	std::string path = "Input/SetImages/";
-	auto d = fs::directory_iterator(path);
-	
-	for (const auto& entry : d) 
+
+	auto d = fs::directory_iterator(pathMosaique);
+
+	for (const auto& entry : d)
 	{
-		std::cout << entry.path() << std::endl;
-		
 		std::string p = entry.path().string();
-		
 		Image test(p.c_str());
-		
-		std::cout << test.getHeight() << " " << test.getWidth() << std::endl;
 		vignetteImages.push_back(test);
 	}
+	
+	std::cout << "Set d images charger" << std::endl;
+	std::cout << "\n" << std::endl;
+
+	//Demander en cb de fois les image son resize ?
+	//Demander le nombre de resize different ?
+	//Demander s'il faut appliquer u nfiltre a certaines image ?
 
 	//resize des vignette
 	for(int i = 0; i < vignetteImages.size(); i++)
@@ -91,6 +116,8 @@ int main()
 		}
 	}
 
+	//Enfin procéder
+	
 	//Declaration des image choisi
 	std::vector<Image> chosenImages;
 
@@ -131,6 +158,8 @@ int main()
 	inputImage.writeBackPixels("Render/Mosaique.jpg");
 
 	chosenImages.clear();
+
+	std::cout << "\n Image Mosaiquer ! \n" << std::endl;
 	
 	//delete inputImage;
 	//delete[] chosenImages;

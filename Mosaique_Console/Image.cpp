@@ -19,8 +19,6 @@ Image::Image(const char* imagePath)
 	if (data == nullptr)
 		std::cout << "Image not load" << std::endl;
 
-	std::cout << "ChannelNumbers : " << channelsNumbers << std::endl;
-
 	this->pixels = new Pixel * *[width];
 
 	for (int i = 0; i < this->width; i++)
