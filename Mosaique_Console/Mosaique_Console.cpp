@@ -32,7 +32,7 @@ int main()
 {
 	std::string pathMosaique;
 
-	//Demander le path de l'image a mosaiquer
+	// ----------------- Demander le path de l'image a mosaiquer
 	std::cout << "Indiquer le chemin de l image qui va etre mosaiquer : " << std::endl;
 	std::cin >> pathMosaique;
 	std::cout << "\n" << std::endl;
@@ -40,10 +40,7 @@ int main()
 	//Loading de l'image à mosaiquer (input)
 	Image inputImage((const char*)pathMosaique.c_str());
 	
-	//Demander si il veut appliquer un filtre à l'image avant de la decouper
-
-	
-	//Demander le nombre de raws et de column (limiter à X ?)
+	// ----------------- Demander le nombre de raws et de column (limiter à X ?)
 	std::cout << "Indiquer le nombre de ligne : " << std::endl;
 	std::cin >> rows;
 	
@@ -70,7 +67,7 @@ int main()
 		}
 	}
 
-	//Demander le dossier contenant le set d'image (limiter à X ?)
+	// ----------------- Demander le dossier contenant le set d'image (limiter à X ?)
 	std::cout << "Indiquer le chemin du dossier contenant le set d images : " << std::endl;
 	std::cin >> pathMosaique;
 	std::cout << "\n" << std::endl;
@@ -90,33 +87,51 @@ int main()
 	std::cout << "Set d images charger" << std::endl;
 	std::cout << "\n" << std::endl;
 
-	//Demander en cb de fois les image son resize ?
-	//Demander le nombre de resize different ?
-	//Demander s'il faut appliquer u nfiltre a certaines image ?
+	// ----------------- Demander le nombre de resize different ?
+	int methodeUse = 1;
+	std::cout << "Combien de methode de redimensionnement veux tu utiliser ? (maximum 3)" << std::endl;
+	std::cin >> methodeUse;
 
+	if (methodeUse <= 0)
+		methodeUse = 1;
+	
+	if (methodeUse >= 3)
+		methodeUse = 3;
+	
 	//resize des vignette
-	for(int i = 0; i < vignetteImages.size(); i++)
+	for (int i = 0; i < vignetteImages.size(); i++)
 	{
-		if(vignetteImages[i].getHeight() < heightCrop || vignetteImages[i].getWidth() < widthCrop)
+		if (vignetteImages[i].getHeight() < heightCrop || vignetteImages[i].getWidth() < widthCrop)
 		{
 			vignetteImages[i] = resize(vignetteImages[i], widthCrop, heightCrop);
 			continue;
 		}
+
+		int value = i % methodeUse;
 		
-		switch (i)
+		switch (value)
 		{
-			
+
 		default:
 			vignetteImages[i] = resize(vignetteImages[i], widthCrop, heightCrop);
 			break;
 
-		case 3:
+		case 0:
 			vignetteImages[i] = cropCenter(vignetteImages[i], widthCrop, heightCrop);
+			break;
+
+		case 1:
+			vignetteImages[i] = crop(vignetteImages[i], widthCrop, heightCrop);
+			break;
+
+		case 2:
+			vignetteImages[i] = resize(vignetteImages[i], widthCrop, heightCrop);
 			break;
 		}
 	}
 
-	//Enfin procéder
+	
+	// ----------------- Enfin procéder
 	
 	//Declaration des image choisi
 	std::vector<Image> chosenImages;
@@ -153,16 +168,59 @@ int main()
 			inputImage.modifyPixelsRegion(chosenImages[index++], j * heightCrop, (j + 1) * heightCrop, i * widthCrop, (i + 1) * widthCrop);
 		}
 	}
+
+	std::cout << "Ou veux tu enregistrer l image ? " << std::endl;
+	std::cin >> pathMosaique;
+
+	pathMosaique.append("finalIm.jpg");
 	
 	//L'image final est save dans le dossier render
-	inputImage.writeBackPixels("Render/Mosaique.jpg");
-
+	inputImage.writeBackPixels(pathMosaique.c_str());
 	chosenImages.clear();
 
 	std::cout << "\n Image Mosaiquer ! \n" << std::endl;
-	
-	//delete inputImage;
-	//delete[] chosenImages;
+
+	std::cout << "Veux tu appliquer un filtre a ta nouvelle images ? : \n";
+	std::cout << "0 - Luminance \n";
+	std::cout << "1 - Blanc ou Noir \n";
+	std::cout << "2 - Sepia \n";
+	std::cout << "3 - Inversion de couleur \n";
+	std::cout << "4 - Meanshift \n";
+	std::cout << "5 - Rien \n";
+	int filtre = 5;
+
+	std::cin >> filtre;
+
+	filtre = filtre > 5 ? 5 : filtre <= 0 ? 0 : filtre;
+
+	switch (filtre)
+	{
+	case 0:
+		inputImage = luminance(inputImage);
+		break;
+
+	case 1:
+		inputImage = blackOrWhite(inputImage);
+		break;
+
+	case 2:
+		inputImage = sepia(inputImage);
+		break;
+
+	case 3:
+		inputImage = invertColor(inputImage);
+		break;
+
+	case 4:
+		inputImage = meanshift(inputImage, 2, 127, 2);
+		break;
+
+	case 5:
+		break;
+	}
+
+	pathMosaique.append("filtrage.jpg");
+	inputImage.writeBackPixels(pathMosaique.c_str());
 	
 	return 0;
 }
