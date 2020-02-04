@@ -36,9 +36,5 @@ int diffHisto(const Image& im1, const Image& im2)
 		greenValues += abs((int)histoIm1.getGreenHistoValue(i) - (int)histoIm2.getGreenHistoValue(i));
 	}
 
-	redValues /= 16;
-	blueValues /= 16;
-	greenValues /= 16;
-
 	return (redValues + blueValues + greenValues) / 3;
 }
