@@ -153,6 +153,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="color.cpp" />
+    <ClCompile Include="histogramme.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="int2.cpp" />
     <ClCompile Include="Mosaique_Console.cpp" />

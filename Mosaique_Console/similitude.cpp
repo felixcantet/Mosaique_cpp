@@ -1,4 +1,5 @@
 #include "Image.h"
+#include "histogramme.h"
 
 int diffVal(const Image& im1, const Image& im2)
 {
@@ -16,4 +17,10 @@ int diffVal(const Image& im1, const Image& im2)
 	}
 
 	return finalDiff/(im1.getWidth() * im1.getHeight());
+}
+
+int diffHisto(const Image& im1, const Image& im2)
+{
+	Histogramme histoIm1(im1);
+	Histogramme histoIm2(im2);
 }

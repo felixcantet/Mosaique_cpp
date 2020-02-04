@@ -1,17 +1,21 @@
 #pragma once
 #include "Image.h"
-#include "color.h"
 
-
-class Histogramme {
+class Histogramme
+{
 private:
-	unsigned int* redHistogramme;
-	unsigned int* greenHistogramme;
-	unsigned int* blueHistogramme;
-	unsigned int* luminanceHistogramme;
+	unsigned int redHistogramme[16];
+	unsigned int greenHistogramme[16];
+	unsigned int blueHistogramme[16];
+	unsigned int luminanceHistogramme[16];
 
 public:
-	Histogramme(const Image* image);
+	Histogramme();
+	Histogramme(const Image& im);
+	Histogramme(const Histogramme& histo);
+
+	Histogramme operator=(Histogramme histo);
+	void swap(Histogramme& histo);
 
 	~Histogramme() {
 		delete[] redHistogramme;
@@ -19,9 +23,11 @@ public:
 		delete[] greenHistogramme;
 		delete[] luminanceHistogramme;
 	}
-	
-	int getLuminance(Color* color);
 
-	void computeHistogrammes(const Image* image);
+	void computeHistogrammes(const Image& image);
 
+	unsigned int* getRedHisto() const;
+	unsigned int* getGreenHisto() const;
+	unsigned int* getBlueHisto() const;
+	unsigned int* getluminanceHisto() const;
 };
