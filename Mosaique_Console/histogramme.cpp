@@ -5,11 +5,49 @@
 
 Histogramme::Histogramme()
 {
-	
+	for (int i = 0; i < 16; i++)
+	{
+		this->greenHistogramme[i] = 0;
+	}
+
+	for (int i = 0; i < 16; i++)
+	{
+		this->redHistogramme[i] = 0;
+	}
+
+	for (int i = 0; i < 16; i++)
+	{
+		this->blueHistogramme[i] = 0;
+	}
+
+	for (int i = 0; i < 16; i++)
+	{
+		this->luminanceHistogramme[i] = 0;
+	}
 }
 
 Histogramme::Histogramme(const Image& im)
 {
+	for (int i = 0; i < 16; i++)
+	{
+		this->greenHistogramme[i] = 0;
+	}
+
+	for (int i = 0; i < 16; i++)
+	{
+		this->redHistogramme[i] = 0;
+	}
+
+	for (int i = 0; i < 16; i++)
+	{
+		this->blueHistogramme[i] = 0;
+	}
+
+	for (int i = 0; i < 16; i++)
+	{
+		this->luminanceHistogramme[i] = 0;
+	}
+	
 	computeHistogrammes(im);
 }
 
@@ -53,7 +91,7 @@ void Histogramme::swap(Histogramme& histo)
 
 void Histogramme::computeHistogrammes(const Image& image)
 {
-	Image lum(luminance(image));
+	//Image lum(luminance(image));
 	for (int i = 0; i < image.getWidth(); i++) 
 	{
 		for (int j = 0; j < image.getHeight(); j++) 
@@ -62,27 +100,27 @@ void Histogramme::computeHistogrammes(const Image& image)
 			redHistogramme[color.r/16] += 1;
 			blueHistogramme[color.b/16] += 1;
 			greenHistogramme[color.g/16] += 1;
-			luminanceHistogramme[lum.pixels[i][j]->getR() / 16];
+			//luminanceHistogramme[lum.pixels[i][j]->getR() / 16];
 		}
 	}
 }
 
-unsigned int* Histogramme::getBlueHisto() const
+unsigned int Histogramme::getBlueHistoValue(int i) const
 {
-	return (unsigned int*)blueHistogramme;
+	return (unsigned int)blueHistogramme[i];
 }
 
-unsigned int* Histogramme::getGreenHisto() const
+unsigned int Histogramme::getGreenHistoValue(int i) const
 {
-	return (unsigned int*)greenHistogramme;
+	return (unsigned int)greenHistogramme[i];
 }
 
-unsigned int* Histogramme::getRedHisto() const
+unsigned int Histogramme::getRedHistoValue(int i) const
 {
-	return (unsigned int*)redHistogramme;
+	return (unsigned int)redHistogramme[i];
 }
 
-unsigned int* Histogramme::getluminanceHisto() const
+unsigned int Histogramme::getluminanceHistoValue(int i) const
 {
-	return (unsigned int*)luminanceHistogramme;
+	return (unsigned int)luminanceHistogramme[i];
 }

@@ -1,5 +1,6 @@
 #include "Image.h"
 #include "histogramme.h"
+#include <iostream>
 
 int diffVal(const Image& im1, const Image& im2)
 {
@@ -23,4 +24,21 @@ int diffHisto(const Image& im1, const Image& im2)
 {
 	Histogramme histoIm1(im1);
 	Histogramme histoIm2(im2);
+
+	int redValues = 0;
+	int blueValues = 0;
+	int greenValues = 0;
+	
+	for(int i = 0; i < 16; i++)
+	{
+		redValues += abs((int)histoIm1.getRedHistoValue(i) - (int)histoIm2.getRedHistoValue(i));
+		blueValues += abs((int)histoIm1.getBlueHistoValue(i) - (int)histoIm2.getBlueHistoValue(i));
+		greenValues += abs((int)histoIm1.getGreenHistoValue(i) - (int)histoIm2.getGreenHistoValue(i));
+	}
+
+	redValues /= 16;
+	blueValues /= 16;
+	greenValues /= 16;
+
+	return (redValues + blueValues + greenValues) / 3;
 }

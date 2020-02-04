@@ -143,7 +143,7 @@ int main()
 		int index = 0;
 		for(int j = 0; j < vignetteImages.size(); j++)
 		{
-			int currVal = diffVal(inputImageVignettes[i], vignetteImages[j]);
+			int currVal = diffHisto(inputImageVignettes[i], vignetteImages[j]);
 			if(currVal <= value)
 			{
 				value = currVal;

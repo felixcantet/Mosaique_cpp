@@ -17,17 +17,18 @@ public:
 	Histogramme operator=(Histogramme histo);
 	void swap(Histogramme& histo);
 
-	~Histogramme() {
-		delete[] redHistogramme;
-		delete[] blueHistogramme;
-		delete[] greenHistogramme;
-		delete[] luminanceHistogramme;
+	~Histogramme()
+	{
+		//delete[] redHistogramme;
+		//delete[] blueHistogramme;
+		//delete[] greenHistogramme;
+		//delete[] luminanceHistogramme;
 	}
 
 	void computeHistogrammes(const Image& image);
 
-	unsigned int* getRedHisto() const;
-	unsigned int* getGreenHisto() const;
-	unsigned int* getBlueHisto() const;
-	unsigned int* getluminanceHisto() const;
+	unsigned int getRedHistoValue(int i) const;
+	unsigned int getGreenHistoValue(int i) const;
+	unsigned int getBlueHistoValue(int i) const;
+	unsigned int getluminanceHistoValue(int i) const;
 };
