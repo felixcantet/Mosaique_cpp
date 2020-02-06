@@ -31,8 +31,8 @@ Image::Image(const char* imagePath)
 		for (int j = 0; j < height; j++)
 		{
 			unsigned char* pixelOffset = data + (i + height * j) * channelsNumbers;
-			Color* color = new Color(pixelOffset[0], pixelOffset[1], pixelOffset[2]);
-			Pixel* p = new Pixel(*color);
+			Color color = Color(pixelOffset[0], pixelOffset[1], pixelOffset[2]);
+			Pixel* p = new Pixel(color);
 			pixels[i][j] = p;
 		}
 	}
@@ -46,8 +46,6 @@ Image::Image(int w, int h)
 	this->height = h;
 	this->channelsNumbers = 3;
 
-	/*this->data = new unsigned char[width * height * channelsNumbers];*/
-	
 	this->pixels = new Pixel * *[width];
 
 	for (int i = 0; i < this->width; i++)
@@ -69,15 +67,6 @@ Image::Image(const Image& im)
 	this->height = im.getHeight();
 	this->width = im.getWidth();
 	this->channelsNumbers = im.channelsNumbers;
-
-	/*int dataSize = this->width * this->height * this->channelsNumbers;
-	this->data = new unsigned char[dataSize];
-
-	for(int i = 0; i < dataSize; i++)
-	{
-		char a = im.data[i];
-		this->data[i] = a;
-	}*/
 
 	this->pixels = new Pixel * *[this->width];
 
@@ -101,7 +90,6 @@ Image::Image(const Image& im)
 Image& Image::operator=(Image im)
 {
 	Image::swap(im);
-	
 	return *this;
 }
 
@@ -109,7 +97,6 @@ void Image::swap(Image& im)
 {
 	std::swap(this->height, im.height);
 	std::swap(this->width, im.width);
-	//std::swap(this->data, im.data);
 	std::swap(this->channelsNumbers, im.channelsNumbers);
 	std::swap(this->pixels, im.pixels);
 }
@@ -142,29 +129,20 @@ void Image::modifyPixelsRegion(const Image& to, int top, int bot, int left, int 
 
 void Image::writeBackPixels(const char* imgName)
 {
-	//for (int i = 0; i < width; i++)
-	//{
-	//	for (int j = 0; j < height; j++)
-	//	{
-	//		data[(i + height * j) * channelsNumbers] = pixels[i][j]->getR();
-	//		data[(i + height * j) * channelsNumbers + 1] = pixels[i][j]->getG();
-	//		data[(i + height * j) * channelsNumbers + 2] = pixels[i][j]->getB();
-	//	}
-	//}
-	
-	unsigned char* data = new unsigned char[this->width * this->height * this->channelsNumbers];
+	const int size = this->width * this->height * this->channelsNumbers;
+	unsigned char* data = new unsigned char[size];
 	int index = 0;
 	
 	for (int i = 0; i < height; i++)
 	{
 		for (int j = 0; j < width; j++)
 		{
-			data[index++] = (unsigned char)pixels[j][i]->getR();
-			data[index++] = (unsigned char)pixels[j][i]->getG();
-			data[index++] = (unsigned char)pixels[j][i]->getB();
+			data[index++] = pixels[j][i]->getR();
+			data[index++] = pixels[j][i]->getG();
+			data[index++] = pixels[j][i]->getB();
 		}
 	}
 	
-	stbi_write_jpg(imgName, this->width, this->height, this->channelsNumbers, (void*)data, this->width * this->channelsNumbers);
+	stbi_write_jpg(imgName, this->width, this->height, this->channelsNumbers, data, this->width * this->channelsNumbers);
 	stbi_image_free(data);
 }

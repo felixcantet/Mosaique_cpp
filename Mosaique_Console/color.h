@@ -4,14 +4,14 @@
 struct Color
 {
 public:
-	int r;
-	int g;
-	int b;
+	unsigned char r;
+	unsigned char g;
+	unsigned char b;
 
 	~Color() {};
 	
 	Color();
-	Color(int r, int g, int b);
+	Color(unsigned char r, unsigned char g, unsigned char b);
 	Color(const Color& c);
 
 	Color& operator=(Color c);

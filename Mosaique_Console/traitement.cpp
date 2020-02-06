@@ -18,7 +18,7 @@ Image luminance(const Image& im)
 			float value = r * 0.2125f + g * 0.7154f + b * 0.072f;
 			value = value > 255 ? 255 : value;
 
-			newIm.pixels[i][j] = new Pixel(*(new Color((int)value, (int)value, (int)value)));
+			newIm.pixels[i][j] = new Pixel(Color((unsigned char)value, (unsigned char)value, (unsigned char)value));
 		}
 	}
 
@@ -45,7 +45,7 @@ Image sepia(const Image& im)
 			newG = newG > 255 ? 255 : newG;
 			newB = newB > 255 ? 255 : newB;
 			
-			newIm.pixels[i][j] = new Pixel(*(new Color((int)newR, (int)newG, (int)newB)));
+			newIm.pixels[i][j] = new Pixel(Color((unsigned char)newR, (unsigned char)newG, (unsigned char)newB));
 		}
 	}
 
@@ -61,7 +61,7 @@ Image blackOrWhite(const Image& im)
 		for (int j = 0; j < newIm.getHeight(); j++)
 		{
 			float somme = (newIm.pixels[i][j]->getR() + newIm.pixels[i][j]->getG() + newIm.pixels[i][j]->getB()) / 3;
-			newIm.pixels[i][j] = somme >= 127.5f ? new Pixel(*new Color(255, 255, 255)) : new Pixel(*new Color(0, 0, 0));
+			newIm.pixels[i][j] = somme >= 127.5f ? new Pixel(Color(255, 255, 255)) : new Pixel(Color(0, 0, 0));
 		}
 	}
 	
@@ -76,7 +76,7 @@ Image invertColor(const Image& im)
 	{
 		for (int j = 0; j < newIm.getHeight(); j++)
 		{
-			newIm.pixels[i][j] = new Pixel(*new Color(255 - im.pixels[i][j]->getR(), 255 - im.pixels[i][j]->getG(), 255 - im.pixels[i][j]->getB()));
+			newIm.pixels[i][j] = new Pixel(Color(255 - im.pixels[i][j]->getR(), 255 - im.pixels[i][j]->getG(), 255 - im.pixels[i][j]->getB()));
 		}
 	}
 
@@ -137,7 +137,7 @@ Image iterateMeanshift(const Image& im, int radius, int ‍‍​‌‌﻿﻿​
 				}
 			}
 
-			Color c = Color((int)(rAdd / voisinAdd), (int)(gAdd / voisinAdd), (int)(bAdd / voisinAdd));
+			Color c = Color((unsigned char)(rAdd / voisinAdd), (unsigned char)(gAdd / voisinAdd), (unsigned char)(bAdd / voisinAdd));
 			copy.pixels[i][j] = new Pixel(c);
 
 			rAdd = 0;
