@@ -154,9 +154,6 @@ int main()
 		chosenImages.push_back(vignetteImages[index]);
 	}
 
-	//vignetteImages.clear();
-	//inputImageVignettes.clear();
-	
 	//Construction de l'image final
 	int index = 0;
 	for(int i = 0; i < column; i++)
@@ -174,7 +171,11 @@ int main()
 	
 	//L'image final est save dans le dossier render
 	inputImage.writeBackPixels(pathMosaique.c_str());
+
 	chosenImages.clear();
+
+	vignetteImages.clear();
+	inputImageVignettes.clear();
 
 	std::cout << "\n Image Mosaiquer ! \n" << std::endl;
 
@@ -217,8 +218,11 @@ int main()
 		break;
 	}
 
-	pathMosaique.append("filtrage.jpg");
-	inputImage.writeBackPixels(pathMosaique.c_str());
-	
+	if(filtre != 5)
+	{
+		pathMosaique.append("filtrage.jpg");
+		inputImage.writeBackPixels(pathMosaique.c_str());
+	}
+
 	return 0;
 }
