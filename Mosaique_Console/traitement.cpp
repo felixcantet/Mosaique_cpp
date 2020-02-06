@@ -11,14 +11,14 @@ Image luminance(const Image& im)
 	{
 		for (int j = 0; j < newIm.getHeight(); j++)
 		{
-			float r = (float)newIm.pixels[i][j]->getR();
-			float g = (float)newIm.pixels[i][j]->getG();
-			float b = (float)newIm.pixels[i][j]->getB();
+			float r = (float)newIm.pixels[i][j].getR();
+			float g = (float)newIm.pixels[i][j].getG();
+			float b = (float)newIm.pixels[i][j].getB();
 
 			float value = r * 0.2125f + g * 0.7154f + b * 0.072f;
 			value = value > 255 ? 255 : value;
 
-			newIm.pixels[i][j] = new Pixel(Color((unsigned char)value, (unsigned char)value, (unsigned char)value));
+			newIm.pixels[i][j] = Pixel(Color((unsigned char)value, (unsigned char)value, (unsigned char)value));
 		}
 	}
 
@@ -33,9 +33,9 @@ Image sepia(const Image& im)
 	{
 		for (int j = 0; j < newIm.getHeight(); j++)
 		{
-			float r = (float)newIm.pixels[i][j]->getR();
-			float g = (float)newIm.pixels[i][j]->getG();
-			float b = (float)newIm.pixels[i][j]->getB();
+			float r = (float)newIm.pixels[i][j].getR();
+			float g = (float)newIm.pixels[i][j].getG();
+			float b = (float)newIm.pixels[i][j].getB();
 
 			float newR = r * 0.393f + g * 0.769f + b * 0.189f;
 			float newG = r * 0.349f + g * 0.686f + b * 0.168f;
@@ -45,7 +45,7 @@ Image sepia(const Image& im)
 			newG = newG > 255 ? 255 : newG;
 			newB = newB > 255 ? 255 : newB;
 			
-			newIm.pixels[i][j] = new Pixel(Color((unsigned char)newR, (unsigned char)newG, (unsigned char)newB));
+			newIm.pixels[i][j] = Pixel(Color((unsigned char)newR, (unsigned char)newG, (unsigned char)newB));
 		}
 	}
 
@@ -60,8 +60,8 @@ Image blackOrWhite(const Image& im)
 	{
 		for (int j = 0; j < newIm.getHeight(); j++)
 		{
-			float somme = (newIm.pixels[i][j]->getR() + newIm.pixels[i][j]->getG() + newIm.pixels[i][j]->getB()) / 3;
-			newIm.pixels[i][j] = somme >= 127.5f ? new Pixel(Color(255, 255, 255)) : new Pixel(Color(0, 0, 0));
+			float somme = (newIm.pixels[i][j].getR() + newIm.pixels[i][j].getG() + newIm.pixels[i][j].getB()) / 3;
+			newIm.pixels[i][j] = somme >= 127.5f ? Pixel(Color(255, 255, 255)) : Pixel(Color(0, 0, 0));
 		}
 	}
 	
@@ -76,7 +76,7 @@ Image invertColor(const Image& im)
 	{
 		for (int j = 0; j < newIm.getHeight(); j++)
 		{
-			newIm.pixels[i][j] = new Pixel(Color(255 - im.pixels[i][j]->getR(), 255 - im.pixels[i][j]->getG(), 255 - im.pixels[i][j]->getB()));
+			newIm.pixels[i][j] = Pixel(Color(255 - im.pixels[i][j].getR(), 255 - im.pixels[i][j].getG(), 255 - im.pixels[i][j].getB()));
 		}
 	}
 
@@ -113,17 +113,17 @@ Image iterateMeanshift(const Image& im, int radius, int ‍‍​‌‌﻿﻿​
 			int maxX = i + radius + 1> copy.getWidth() ? copy.getWidth() : i + radius + 1;
 			int maxY = j + radius + 1> copy.getHeight() ? copy.getHeight() : j + radius + 1;
 
-			int rCrt = im.pixels[i][j]->getR();
-			int gCrt = im.pixels[i][j]->getG();
-			int bCrt = im.pixels[i][j]->getB();
+			unsigned char rCrt = im.pixels[i][j].getR();
+			unsigned char gCrt = im.pixels[i][j].getG();
+			unsigned char bCrt = im.pixels[i][j].getB();
 
 			for(int k = minX; k < maxX; k++)
 			{
 				for (int l = minY; l < maxY; l++)
 				{
-					int r = im.pixels[k][l]->getR();
-					int g = im.pixels[k][l]->getG();
-					int b = im.pixels[k][l]->getB();
+					unsigned char r = im.pixels[k][l].getR();
+					unsigned char g = im.pixels[k][l].getG();
+					unsigned char b = im.pixels[k][l].getB();
 
 					int norm = abs(rCrt - r) + abs(gCrt - g) + abs(bCrt - b);
 
@@ -138,7 +138,7 @@ Image iterateMeanshift(const Image& im, int radius, int ‍‍​‌‌﻿﻿​
 			}
 
 			Color c = Color((unsigned char)(rAdd / voisinAdd), (unsigned char)(gAdd / voisinAdd), (unsigned char)(bAdd / voisinAdd));
-			copy.pixels[i][j] = new Pixel(c);
+			copy.pixels[i][j] = Pixel(c);
 
 			rAdd = 0;
 			gAdd = 0;

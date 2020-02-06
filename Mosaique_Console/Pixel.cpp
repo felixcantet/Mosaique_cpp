@@ -26,17 +26,17 @@ void Pixel::swap(Pixel& p)
 	this->color = p.color;
 }
 
-int Pixel::getR() const
+unsigned char Pixel::getR() const
 {
 	return this->color.r;
 }
 
-int Pixel::getG() const
+unsigned char Pixel::getG() const
 {
 	return this->color.g;
 }
 
-int Pixel::getB() const
+unsigned char Pixel::getB() const
 {
 	return this->color.b;
 }
@@ -50,14 +50,14 @@ void Pixel::setColor(const Color& newColor) {
 	this->color = newColor;
 }
 
-void Pixel::setR(int r) {
+void Pixel::setR(unsigned char r) {
 	this->color.r = r;
 }
 
-void Pixel::setG(int g) {
+void Pixel::setG(unsigned char g) {
 	this->color.g = g;
 }
 
-void Pixel::setB(int b) {
+void Pixel::setB(unsigned char b) {
 	this->color.b = b;
 }

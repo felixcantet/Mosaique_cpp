@@ -9,9 +9,9 @@ int diffVal(const Image& im1, const Image& im2)
 	{
 		for (int j = 0; j < im1.getHeight(); j++)
 		{
-			int rDiff = abs(im1.pixels[i][j]->getR() - im2.pixels[i][j]->getR());
-			int gDiff = abs(im1.pixels[i][j]->getG() - im2.pixels[i][j]->getG());
-			int bDiff = abs(im1.pixels[i][j]->getB() - im2.pixels[i][j]->getB());
+			unsigned char rDiff = abs(im1.pixels[i][j].getR() - im2.pixels[i][j].getR());
+			unsigned char gDiff = abs(im1.pixels[i][j].getG() - im2.pixels[i][j].getG());
+			unsigned char bDiff = abs(im1.pixels[i][j].getB() - im2.pixels[i][j].getB());
 
 			finalDiff += (rDiff + gDiff + bDiff) / 3;
 		}

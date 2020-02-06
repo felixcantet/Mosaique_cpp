@@ -19,11 +19,11 @@ Image::Image(const char* imagePath)
 	if (data == nullptr)
 		std::cout << "Image not load" << std::endl;
 
-	this->pixels = new Pixel * *[width];
+	this->pixels = new Pixel *[width];
 
 	for (int i = 0; i < this->width; i++)
 	{
-		this->pixels[i] = new Pixel * [height];
+		this->pixels[i] = new Pixel[height];
 	}
 
 	for (int i = 0; i < width; i++)
@@ -32,7 +32,7 @@ Image::Image(const char* imagePath)
 		{
 			unsigned char* pixelOffset = data + (i + height * j) * channelsNumbers;
 			Color color = Color(pixelOffset[0], pixelOffset[1], pixelOffset[2]);
-			Pixel* p = new Pixel(color);
+			Pixel p = Pixel(color);
 			pixels[i][j] = p;
 		}
 	}
@@ -46,18 +46,18 @@ Image::Image(int w, int h)
 	this->height = h;
 	this->channelsNumbers = 3;
 
-	this->pixels = new Pixel * *[width];
+	this->pixels = new Pixel *[width];
 
 	for (int i = 0; i < this->width; i++)
 	{
-		this->pixels[i] = new Pixel * [height];
+		this->pixels[i] = new Pixel[height];
 	}
 
 	for (int i = 0; i < width; i++)
 	{
 		for (int j = 0; j < height; j++)
 		{
-			pixels[i][j] = new Pixel();
+			pixels[i][j] = Pixel();
 		}
 	}
 }
@@ -68,11 +68,11 @@ Image::Image(const Image& im)
 	this->width = im.getWidth();
 	this->channelsNumbers = im.channelsNumbers;
 
-	this->pixels = new Pixel * *[this->width];
+	this->pixels = new Pixel *[this->width];
 
 	for (int i = 0; i < this->width; i++)
 	{
-		this->pixels[i] = new Pixel * [this->height];
+		this->pixels[i] = new Pixel[this->height];
 	}
 
 	
@@ -80,7 +80,7 @@ Image::Image(const Image& im)
 	{
 		for (int j = 0; j < height; j++)
 		{
-			Pixel* p = new Pixel(*im.pixels[i][j]);
+			Pixel p = Pixel(im.pixels[i][j]);
 			this->pixels[i][j] = p;
 		}
 	}
@@ -113,7 +113,7 @@ int Image::getHeight() const
 
 Pixel Image::getPixel(int x, int y) const
 {
-	return *pixels[x][y];
+	return pixels[x][y];
 }
 
 void Image::modifyPixelsRegion(const Image& to, int top, int bot, int left, int right)
@@ -137,9 +137,9 @@ void Image::writeBackPixels(const char* imgName)
 	{
 		for (int j = 0; j < width; j++)
 		{
-			data[index++] = pixels[j][i]->getR();
-			data[index++] = pixels[j][i]->getG();
-			data[index++] = pixels[j][i]->getB();
+			data[index++] = pixels[j][i].getR();
+			data[index++] = pixels[j][i].getG();
+			data[index++] = pixels[j][i].getB();
 		}
 	}
 	

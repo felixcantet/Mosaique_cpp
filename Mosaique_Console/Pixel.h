@@ -17,15 +17,15 @@ public:
 	Pixel& operator=(Pixel p);
 	void swap(Pixel& p);
 	
-	int getR() const;
-	int getG() const;
-	int getB() const;
+	unsigned char getR() const;
+	unsigned char getG() const;
+	unsigned char getB() const;
 	Color getColor() const;
 
 	void setColor(const Color& newColor);
-	void setR(int r);
-	void setG(int g);
-	void setB(int b);
+	void setR(unsigned char r);
+	void setG(unsigned char g);
+	void setB(unsigned char b);
 };
 
 #endif

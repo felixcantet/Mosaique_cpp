@@ -154,10 +154,8 @@ int main()
 		chosenImages.push_back(vignetteImages[index]);
 	}
 
-	vignetteImages.clear();
-	inputImageVignettes.clear();
-	
-	//j * heightCrop, (j + 1) * heightCrop, i * widthCrop, (i + 1) * widthCrop
+	//vignetteImages.clear();
+	//inputImageVignettes.clear();
 	
 	//Construction de l'image final
 	int index = 0;

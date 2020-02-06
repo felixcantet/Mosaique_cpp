@@ -10,11 +10,10 @@ private:
 	int width;
 	int height;
 	int channelsNumbers;
-	//unsigned char* data;
 	
 
 public:
-	Pixel*** pixels;
+	Pixel** pixels;
 
 	Image(const char* imagePath);
 	Image(int w, int h);
@@ -25,8 +24,6 @@ public:
 	
 	~Image()
 	{
-		// Unload the image at destruction
-		//stbi_image_free(data);
 		delete[] pixels;
 	}
 
