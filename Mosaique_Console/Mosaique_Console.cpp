@@ -135,7 +135,25 @@ int main()
 	
 	//Declaration des image choisi
 	std::vector<Image> chosenImages;
+	int similitudeAlgo = 1;
+	std::cout << "Quelle methode de similitude voulez vous utiliser ? \n" ;
+	std::cout << "1 : Valeurs RGB \n";
+	std::cout << "2 : Valeurs HSV \n";
+	std::cout << "3 : Histogramme Luminance \n";
+	std::cout << "Quelle methode de similitude voulez vous utiliser ? \n";
+	std::cin >> similitudeAlgo;
+	float weightH = 0;
+	float weightS = 0;
+	float weightV = 0;
 
+	if (similitudeAlgo == 2) {
+		std::cout << "Quel poid voulez vous mettre pour la composante H ? (valeur flottante entre 0 et 1" << std::endl;
+		std::cin >> weightH;
+		std::cout << "Quel poid voulez vous mettre pour la composante S ? (valeur flottante entre 0 et 1" << std::endl;
+		std::cin >> weightS;
+		std::cout << "Quel poid voulez vous mettre pour la composante V ? (valeur flottante entre 0 et 1" << std::endl;
+		std::cin >> weightV;
+	}
 	//Comparaison des similitude + ajout de l'image dans chosenImages
 	for(int i = 0; i < inputImageVignettes.size(); i++)
 	{
@@ -143,7 +161,14 @@ int main()
 		int index = 0;
 		for(int j = 0; j < vignetteImages.size(); j++)
 		{
-			int currVal = diffVal(inputImageVignettes[i], vignetteImages[j]);
+			int currVal = 0;
+			if(similitudeAlgo == 1)
+				currVal = diffVal(inputImageVignettes[i], vignetteImages[j]);
+			else if(similitudeAlgo == 2)
+				currVal = diffHSV(inputImageVignettes[i], vignetteImages[j], weightH, weightS, weightV);
+			else if(similitudeAlgo == 3)
+				currVal = diffLuminanceHisto(inputImageVignettes[i], vignetteImages[j]);
+			
 			if(currVal <= value)
 			{
 				value = currVal;

@@ -156,6 +156,7 @@
     <ClCompile Include="histogramme.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="int2.cpp" />
+    <ClCompile Include="luminanceHistogramme.cpp" />
     <ClCompile Include="Mosaique_Console.cpp" />
     <ClCompile Include="Pixel.cpp" />
     <ClCompile Include="croping.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="int2.h" />
     <ClInclude Include="color.h" />
     <ClInclude Include="Image.h" />
+    <ClInclude Include="luminance_histogramme.h" />
     <ClInclude Include="Pixel.h" />
     <ClInclude Include="similitude.h" />
     <ClInclude Include="stb_image_write.h" />

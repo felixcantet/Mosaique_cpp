@@ -1,6 +1,8 @@
 #include "Image.h"
 #include "histogramme.h"
 #include <iostream>
+#include "luminance_histogramme.h"
+#include "utils.h"
 
 int diffVal(const Image& im1, const Image& im2)
 {
@@ -37,4 +39,40 @@ int diffHisto(const Image& im1, const Image& im2)
 	}
 
 	return (redValues + blueValues + greenValues) / 3;
+}
+
+int diffLuminanceHisto(const Image& im1, const Image& im2)
+{
+	luminanceHistogramme histo1(im1);
+	luminanceHistogramme histo2(im2);
+	int diff = 0;
+	for(int i = 0; i < 16; i++)
+	{
+		diff += abs((int)histo1.getHistoValue(i) - (int)histo2.getHistoValue(i));
+	}
+
+	return int(diff / 16);
+}
+
+// Calcul la moyenne des différences HSV pour chaque pixel
+int diffHSV(const Image& im1, const Image& im2, float weightH, float weightS, float weightV)
+{
+	int diff = 0;
+
+	for (int i = 0; i < im1.getWidth(); i++)
+	{
+		for (int j = 0; j < im1.getHeight(); j++)
+		{
+			Color hsvImage1 = rgbToHsv(im1.getPixel(i, j).getColor());
+			Color hsvImage2 = rgbToHsv(im2.getPixel(i, j).getColor());
+
+			unsigned char diffH = abs(hsvImage1.r - hsvImage2.r);
+			unsigned char diffS = abs(hsvImage1.g - hsvImage2.g);
+			unsigned char diffV = abs(hsvImage1.b - hsvImage2.b);
+
+			diff += (diffH * weightH + diffS * weightS + diffV * weightV) / 3;
+		}
+	}
+
+	return diff / (im1.getWidth() * im1.getHeight());
 }
