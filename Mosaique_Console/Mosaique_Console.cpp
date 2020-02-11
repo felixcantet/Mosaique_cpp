@@ -116,19 +116,19 @@ int main()
 			vignetteImagesResize.push_back(resize(tmp, widthCrop, heightCrop));
 			break;
 
-		case 0:
+		case 1:
 			//vignetteImages[i] = cropCenter(vignetteImages[i], widthCrop, heightCrop);
 			vignetteImagesResize.push_back(cropCenter(tmp, widthCrop, heightCrop));
 			break;
 
-		case 1:
+		case 2:
 			//vignetteImages[i] = cropCenter(vignetteImages[i], widthCrop, heightCrop);
 			//vignetteImages[i] = crop(vignetteImages[i], widthCrop, heightCrop);
 			vignetteImagesResize.push_back(cropCenter(tmp, widthCrop, heightCrop));
 			vignetteImagesResize.push_back(crop(tmp, widthCrop, heightCrop));
 			break;
 
-		case 2:
+		case 3:
 			//vignetteImages[i] = cropCenter(vignetteImages[i], widthCrop, heightCrop);
 			//vignetteImages[i] = crop(vignetteImages[i], widthCrop, heightCrop);
 			//vignetteImages[i] = resize(vignetteImages[i], widthCrop, heightCrop);
