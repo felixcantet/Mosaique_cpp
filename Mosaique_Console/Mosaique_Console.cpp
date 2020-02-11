@@ -217,6 +217,10 @@ int main()
 
 	filtre = filtre > 5 ? 5 : filtre <= 0 ? 0 : filtre;
 
+	int radius = 2;
+	int threshold = 128;
+	int iteration = 2;
+	
 	switch (filtre)
 	{
 	case 0:
@@ -236,7 +240,22 @@ int main()
 		break;
 
 	case 4:
-		inputImage = meanshift(inputImage, 2, 127, 2);
+		std::cout << "Quel radius veux tu ? " << std::endl;
+		std::cin >> radius;
+
+		radius = radius > 12 ? 12 : radius <= 0 ? 1 : radius;
+		
+		std::cout << "Quel tolerance veux tu ? " << std::endl;
+		std::cin >> threshold;
+
+		threshold = threshold > 255 ? 255 : threshold <= 0 ? 0 : threshold;
+		
+		std::cout << "Combien d'iteration veux tu ? " << std::endl;
+		std::cin >> iteration;
+
+		iteration = iteration > 10 ? 10 : iteration <= 0 ? 1 : iteration;
+		
+		inputImage = meanshift(inputImage, radius, threshold, iteration);
 		break;
 
 	case 5:
