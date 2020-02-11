@@ -19,8 +19,6 @@ namespace fs = std::experimental::filesystem;
 int rows = 256;
 int column = 256;
 
-int vignetteNumber = 0;
-
 int widthCrop = 0;
 int heightCrop = 0;
 
@@ -47,8 +45,6 @@ int main()
 	std::cout << "Indiquer le nombre de colonne : " << std::endl;
 	std::cin >> column;
 	std::cout << "\n" << std::endl;
-	
-	vignetteNumber = rows * column;
 
 	//Calcule de la size des vignettes
 	widthCrop = inputImage.getWidth() / column;
@@ -97,39 +93,53 @@ int main()
 	
 	if (methodeUse >= 3)
 		methodeUse = 3;
+
+	std::vector<Image> vignetteImagesResize;
 	
 	//resize des vignette
 	for (int i = 0; i < vignetteImages.size(); i++)
 	{
 		if (vignetteImages[i].getHeight() < heightCrop || vignetteImages[i].getWidth() < widthCrop)
 		{
-			vignetteImages[i] = resize(vignetteImages[i], widthCrop, heightCrop);
+			vignetteImagesResize.push_back(Image(resize(vignetteImages[i], widthCrop, heightCrop)));
 			continue;
 		}
 
 		int value = i % methodeUse;
 		
+		Image tmp(vignetteImages[i]);
+		
 		switch (value)
 		{
-
 		default:
-			vignetteImages[i] = resize(vignetteImages[i], widthCrop, heightCrop);
+			//vignetteImages[i] = resize(vignetteImages[i], widthCrop, heightCrop);
+			vignetteImagesResize.push_back(resize(tmp, widthCrop, heightCrop));
 			break;
 
 		case 0:
-			vignetteImages[i] = cropCenter(vignetteImages[i], widthCrop, heightCrop);
+			//vignetteImages[i] = cropCenter(vignetteImages[i], widthCrop, heightCrop);
+			vignetteImagesResize.push_back(cropCenter(tmp, widthCrop, heightCrop));
 			break;
 
 		case 1:
-			vignetteImages[i] = crop(vignetteImages[i], widthCrop, heightCrop);
+			//vignetteImages[i] = cropCenter(vignetteImages[i], widthCrop, heightCrop);
+			//vignetteImages[i] = crop(vignetteImages[i], widthCrop, heightCrop);
+			vignetteImagesResize.push_back(cropCenter(tmp, widthCrop, heightCrop));
+			vignetteImagesResize.push_back(crop(tmp, widthCrop, heightCrop));
 			break;
 
 		case 2:
-			vignetteImages[i] = resize(vignetteImages[i], widthCrop, heightCrop);
+			//vignetteImages[i] = cropCenter(vignetteImages[i], widthCrop, heightCrop);
+			//vignetteImages[i] = crop(vignetteImages[i], widthCrop, heightCrop);
+			//vignetteImages[i] = resize(vignetteImages[i], widthCrop, heightCrop);
+			vignetteImagesResize.push_back(cropCenter(tmp, widthCrop, heightCrop));
+			vignetteImagesResize.push_back(crop(tmp, widthCrop, heightCrop));
+			vignetteImagesResize.push_back(resize(tmp, widthCrop, heightCrop));
 			break;
 		}
 	}
 
+	vignetteImages.clear();
 	
 	// ----------------- Enfin procéder
 	
@@ -159,15 +169,15 @@ int main()
 	{
 		int value = 999999;
 		int index = 0;
-		for(int j = 0; j < vignetteImages.size(); j++)
+		for(int j = 0; j < vignetteImagesResize.size(); j++)
 		{
 			int currVal = 0;
 			if(similitudeAlgo == 1)
-				currVal = diffVal(inputImageVignettes[i], vignetteImages[j]);
+				currVal = diffVal(inputImageVignettes[i], vignetteImagesResize[j]);
 			else if(similitudeAlgo == 2)
-				currVal = diffHSV(inputImageVignettes[i], vignetteImages[j], weightH, weightS, weightV);
+				currVal = diffHSV(inputImageVignettes[i], vignetteImagesResize[j], weightH, weightS, weightV);
 			else if(similitudeAlgo == 3)
-				currVal = diffLuminanceHisto(inputImageVignettes[i], vignetteImages[j]);
+				currVal = diffLuminanceHisto(inputImageVignettes[i], vignetteImagesResize[j]);
 			
 			if(currVal <= value)
 			{
@@ -176,7 +186,7 @@ int main()
 			}
 		}
 
-		chosenImages.push_back(vignetteImages[index]);
+		chosenImages.push_back(vignetteImagesResize[index]);
 	}
 
 	//Construction de l'image final
