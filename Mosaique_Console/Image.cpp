@@ -18,7 +18,7 @@ Image::Image(const char* imagePath)
 
 	if (data == nullptr)
 		std::cout << "Image not load" << std::endl;
-
+	
 	this->pixels = new Pixel *[width];
 
 	for (int i = 0; i < this->width; i++)
@@ -30,13 +30,17 @@ Image::Image(const char* imagePath)
 	{
 		for (int j = 0; j < height; j++)
 		{
+			// On récupère les valeurs rgb du pixel qu'on stock dans un Pixel
+			
+			// On décale le poiteur pour récupérer la valeur de chaque pixel
 			unsigned char* pixelOffset = data + (i + height * j) * channelsNumbers;
+			
 			Color color = Color(pixelOffset[0], pixelOffset[1], pixelOffset[2]);
 			Pixel p = Pixel(color);
 			pixels[i][j] = p;
 		}
 	}
-	
+	// On libère la mémoire car l'image ne sera plus utilisée
 	stbi_image_free(data);
 }
 
@@ -137,12 +141,13 @@ void Image::writeBackPixels(const char* imgName)
 	{
 		for (int j = 0; j < width; j++)
 		{
+			// Ecriture de l'image dans le format requis par stb
 			data[index++] = pixels[j][i].getR();
 			data[index++] = pixels[j][i].getG();
 			data[index++] = pixels[j][i].getB();
 		}
 	}
-	
+	// Write
 	stbi_write_jpg(imgName, this->width, this->height, this->channelsNumbers, data, this->width * this->channelsNumbers);
 	stbi_image_free(data);
 }

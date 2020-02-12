@@ -48,6 +48,7 @@ int diffLuminanceHisto(const Image& im1, const Image& im2)
 	int diff = 0;
 	for(int i = 0; i < 16; i++)
 	{
+		// Comparaison pour chaque entrée de l'histogramme
 		diff += abs((int)histo1.getHistoValue(i) - (int)histo2.getHistoValue(i));
 	}
 
@@ -59,10 +60,12 @@ int diffHSV(const Image& im1, const Image& im2, float weightH, float weightS, fl
 {
 	int diff = 0;
 
+	// Conversion des couleurs de chaque pixel des deux image en hsv et comparaison
 	for (int i = 0; i < im1.getWidth(); i++)
 	{
 		for (int j = 0; j < im1.getHeight(); j++)
 		{
+			
 			Color hsvImage1 = rgbToHsv(im1.getPixel(i, j).getColor());
 			Color hsvImage2 = rgbToHsv(im2.getPixel(i, j).getColor());
 

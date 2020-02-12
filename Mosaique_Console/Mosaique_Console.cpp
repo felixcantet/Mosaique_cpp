@@ -24,41 +24,50 @@ int heightCrop = 0;
 
 // le dossier Input a à sa racine l'image à mosaiquer
 // 
-// le dossier Input/SetImages/ conteint toutes les images qui composeront la mosaique
+// le dossier Input/SetImages/ contient toutes les images qui composeront la mosaique
 
 int main()
 {
+
+	/////////////////////   Chargement des données    //////////////////////
+
+
 	std::string pathMosaique;
 
 	// ----------------- Demander le path de l'image a mosaiquer
-	std::cout << "Indiquer le chemin de l image qui va etre mosaiquer : " << std::endl;
+	std::cout << "Indiquez le chemin de l image qui va etre mosaiquee : " << std::endl;
 	std::cin >> pathMosaique;
 	std::cout << "\n" << std::endl;
 	
-	//Loading de l'image à mosaiquer (input)
+	// Loading de l'image à mosaiquer (input)
 	Image inputImage((const char*)pathMosaique.c_str());
 	
 	// ----------------- Demander le nombre de raws et de column (limiter à X ?)
-	std::cout << "Indiquer le nombre de ligne : " << std::endl;
+	std::cout << "Indiquez le nombre de ligne : " << std::endl;
 	std::cin >> rows;
 	
-	std::cout << "Indiquer le nombre de colonne : " << std::endl;
+	std::cout << "Indiquez le nombre de colonne : " << std::endl;
 	std::cin >> column;
 	std::cout << "\n" << std::endl;
 
-	//Calcule de la size des vignettes
+	// Calcule de la largeur et la hauteur des vignettes en pixel
 	widthCrop = inputImage.getWidth() / column;
 	heightCrop = inputImage.getHeight() / rows;
 
+	// On resize l'image pour que ses dimensions soient multiple de column et rows
 	inputImage = resize(inputImage, widthCrop * column, heightCrop * rows);
 
 	//Decoupage de l'input
+
+	// Les images découpés sont stockés dans un vector
 	std::vector<Image> inputImageVignettes;
 	for (int i = 0; i < column; i++)
 	{
 		for (int j = 0; j < rows; j++)
 		{
+			// Crop de chaque région
 			Image tmp = cropRegion(inputImage, j * heightCrop, (j + 1) * heightCrop, i * widthCrop, (i + 1) * widthCrop);
+			// Stockage de la région croppée
 			inputImageVignettes.push_back(tmp);
 		}
 	}
@@ -71,10 +80,14 @@ int main()
 	//Loading des vignette qui composeront la mosaique
 	std::vector<Image> vignetteImages;
 
+	// On récupère toutes les entrées dans le dossier indiqué par l'utilisateur
 	auto d = fs::directory_iterator(pathMosaique);
 
+	// On charge en mémoire une image pour chaque fichier dans le dossier
+	// et on la stock dans notre vector
 	for (const auto& entry : d)
 	{
+		// Ajouter un check de type de fichier pour ne prendre que les fichiers supportés
 		std::string p = entry.path().string();
 		Image test(p.c_str());
 		vignetteImages.push_back(test);
@@ -99,6 +112,8 @@ int main()
 	//resize des vignette
 	for (int i = 0; i < vignetteImages.size(); i++)
 	{
+		// Si les dimensions de l'image sont supérieur à la dimension
+		// d'une vignette, alors on la resize
 		if (vignetteImages[i].getHeight() < heightCrop || vignetteImages[i].getWidth() < widthCrop)
 		{
 			vignetteImagesResize.push_back(Image(resize(vignetteImages[i], widthCrop, heightCrop)));
@@ -112,28 +127,28 @@ int main()
 		switch (value)
 		{
 		default:
-			//vignetteImages[i] = resize(vignetteImages[i], widthCrop, heightCrop);
+			// On resize l'image
 			vignetteImagesResize.push_back(resize(tmp, widthCrop, heightCrop));
 			break;
 
 		case 1:
-			//vignetteImages[i] = cropCenter(vignetteImages[i], widthCrop, heightCrop);
+			// Crop par le centre de l'image
 			vignetteImagesResize.push_back(cropCenter(tmp, widthCrop, heightCrop));
 			break;
 
 		case 2:
-			//vignetteImages[i] = cropCenter(vignetteImages[i], widthCrop, heightCrop);
-			//vignetteImages[i] = crop(vignetteImages[i], widthCrop, heightCrop);
+			// Crop par le centre 
 			vignetteImagesResize.push_back(cropCenter(tmp, widthCrop, heightCrop));
+			// Crop par le coins
 			vignetteImagesResize.push_back(crop(tmp, widthCrop, heightCrop));
 			break;
 
 		case 3:
-			//vignetteImages[i] = cropCenter(vignetteImages[i], widthCrop, heightCrop);
-			//vignetteImages[i] = crop(vignetteImages[i], widthCrop, heightCrop);
-			//vignetteImages[i] = resize(vignetteImages[i], widthCrop, heightCrop);
+			// Crop par le centre
 			vignetteImagesResize.push_back(cropCenter(tmp, widthCrop, heightCrop));
+			// Crop par le coin
 			vignetteImagesResize.push_back(crop(tmp, widthCrop, heightCrop));
+			// Resize
 			vignetteImagesResize.push_back(resize(tmp, widthCrop, heightCrop));
 			break;
 		}
@@ -141,7 +156,7 @@ int main()
 
 	vignetteImages.clear();
 	
-	// ----------------- Enfin procéder
+	////////////////////////////  Génération de la mosaique    //////////////////////
 	
 	//Declaration des image choisi
 	std::vector<Image> chosenImages;
@@ -157,35 +172,42 @@ int main()
 	float weightV = 0;
 
 	if (similitudeAlgo == 2) {
-		std::cout << "Quel poid voulez vous mettre pour la composante H ? (valeur flottante entre 0 et 1" << std::endl;
+		std::cout << "Quel poid voulez vous mettre pour la composante Hue ? (valeur flottante entre 0 et 1)" << std::endl;
 		std::cin >> weightH;
-		std::cout << "Quel poid voulez vous mettre pour la composante S ? (valeur flottante entre 0 et 1" << std::endl;
+		std::cout << "Quel poid voulez vous mettre pour la composante Saturation ? (valeur flottante entre 0 et 1)" << std::endl;
 		std::cin >> weightS;
-		std::cout << "Quel poid voulez vous mettre pour la composante V ? (valeur flottante entre 0 et 1" << std::endl;
+		std::cout << "Quel poid voulez vous mettre pour la composante Value ? (valeur flottante entre 0 et 1)" << std::endl;
 		std::cin >> weightV;
 	}
 	//Comparaison des similitude + ajout de l'image dans chosenImages
+	// Pour chaque partie de l'image d'input découpées
 	for(int i = 0; i < inputImageVignettes.size(); i++)
 	{
+		// Initialisation de la valeur de similitude à Max
 		int value = 999999;
+		// Stockage de l'index ayant la plus petite différence
 		int index = 0;
+		// Pour chaque vignette de l'image
 		for(int j = 0; j < vignetteImagesResize.size(); j++)
 		{
 			int currVal = 0;
+			// Différence RGB
 			if(similitudeAlgo == 1)
 				currVal = diffVal(inputImageVignettes[i], vignetteImagesResize[j]);
+			// Différence HSV
 			else if(similitudeAlgo == 2)
 				currVal = diffHSV(inputImageVignettes[i], vignetteImagesResize[j], weightH, weightS, weightV);
+			// Différence par luminance (Histogramme)
 			else if(similitudeAlgo == 3)
 				currVal = diffLuminanceHisto(inputImageVignettes[i], vignetteImagesResize[j]);
-			
+			// Stockage du meilleur score et de l'image associée
 			if(currVal <= value)
 			{
 				value = currVal;
 				index = j;
 			}
 		}
-
+		// On choisit l'image qui a le meilleur index
 		chosenImages.push_back(vignetteImagesResize[index]);
 	}
 
@@ -195,16 +217,18 @@ int main()
 	{
 		for(int j = 0; j < rows; j++)
 		{
+			// On modifie les pixels de l'image d'input pour la région donnée en paramtère
+			// et en copiant l'image passée en paramètre
 			inputImage.modifyPixelsRegion(chosenImages[index++], j * heightCrop, (j + 1) * heightCrop, i * widthCrop, (i + 1) * widthCrop);
 		}
 	}
-
+	///////////////////////    Stockage de l'image   ///////////////////
 	std::cout << "Ou veux tu enregistrer l image ? " << std::endl;
 	std::cin >> pathMosaique;
 
 	pathMosaique.append("finalIm.jpg");
 	
-	//L'image final est save dans le dossier render
+	//L'image final est sauvegardée dans le dossier entré par l'utilisateur
 	inputImage.writeBackPixels(pathMosaique.c_str());
 
 	chosenImages.clear();
