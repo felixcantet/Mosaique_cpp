@@ -10,6 +10,8 @@ public:
 	luminanceHistogramme();
 	luminanceHistogramme(const Image& im);
 
+	~luminanceHistogramme() {};
+	
 	luminanceHistogramme operator=(luminanceHistogramme histo);
 	void swap(luminanceHistogramme& histo);
 	unsigned int getHistoValue(int index) const;

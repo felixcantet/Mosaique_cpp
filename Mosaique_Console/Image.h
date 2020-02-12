@@ -24,6 +24,11 @@ public:
 	
 	~Image()
 	{
+		for (int i = 0; i < this->width; i++)
+		{
+			delete[] this->pixels[i];
+		}
+		
 		delete[] pixels;
 	}
 

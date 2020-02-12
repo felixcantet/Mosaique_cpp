@@ -96,7 +96,7 @@ int main()
 	std::cout << "Set d images charger" << std::endl;
 	std::cout << "\n" << std::endl;
 
-	// ----------------- Demander le nombre de resize different ?
+	// ----------------- Demander le nombre de resize different 
 	int methodeUse = 1;
 	std::cout << "Combien de methode de redimensionnement veux tu utiliser ? (maximum 3)" << std::endl;
 	std::cin >> methodeUse;
@@ -120,11 +120,11 @@ int main()
 			continue;
 		}
 
-		int value = i % methodeUse;
+		//int value = i % methodeUse;
 		
 		Image tmp(vignetteImages[i]);
 		
-		switch (value)
+		switch (methodeUse)
 		{
 		default:
 			// On resize l'image

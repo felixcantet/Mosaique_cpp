@@ -17,13 +17,7 @@ public:
 	Histogramme operator=(Histogramme histo);
 	void swap(Histogramme& histo);
 
-	~Histogramme()
-	{
-		//delete[] redHistogramme;
-		//delete[] blueHistogramme;
-		//delete[] greenHistogramme;
-		//delete[] luminanceHistogramme;
-	}
+	~Histogramme() {}
 
 	void computeHistogrammes(const Image& image);
 
